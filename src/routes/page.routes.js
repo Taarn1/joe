@@ -4,19 +4,19 @@ const Router = express.Router();
 
 //forside/login
 Router.get("/", (req, res) => 
-  res.sendFile(path.join(__dirname, "../client/pages/login.html")));
+  res.sendFile(path.join(__dirname, "../../client/pages/login.html")));
 
 //sign up
 Router.get("/signup", (req, res) => 
-  res.sendFile(path.join(__dirname, "../client/pages/signup.html")));
+  res.sendFile(path.join(__dirname, "../../client/pages/signup.html")));
 
 //joinroom
 Router.get("/joinroom", (req, res) => 
-  res.sendFile(path.join(__dirname, "../client/pages/joinroom.html")));
+  res.sendFile(path.join(__dirname, "../../client/pages/joinroom.html")));
 //chat
 Router.get("/chat", (req, res) => 
-  res.sendFile(path.join(__dirname, "../client/pages/chat.html")));
+  res.sendFile(path.join(__dirname, "../../client/pages/chat.html")));
 Router.get("/chat.js", (req, res) =>
-  res.sendFile(path.join(__dirname, "../client/scripts/chat.js")));
+  res.sendFile(path.join(__dirname, "../../client/scripts/chat.js")));
 
 module.exports = Router;
