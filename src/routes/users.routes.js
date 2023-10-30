@@ -15,4 +15,4 @@ router.delete("/delete/:id", (req, res) =>
   usersController.deleteUser(req, res)
 );
 
-module.exports = userRoute;
+module.exports = router;

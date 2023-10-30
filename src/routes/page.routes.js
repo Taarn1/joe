@@ -16,3 +16,7 @@ Router.get("/joinroom", (req, res) =>
 //chat
 Router.get("/chat", (req, res) => 
   res.sendFile(path.join(__dirname, "../client/pages/chat.html")));
+Router.get("/chat.js", (req, res) =>
+  res.sendFile(path.join(__dirname, "../client/scripts/chat.js")));
+
+module.exports = Router;
