@@ -1,6 +1,4 @@
-const { executeSQL } = require("../models/execSQL.js");
-
-// login
+/*
 exports.login = async (req, res) => {
   if (!req.body.email || !req.body.password) {
     return res.status(400).send("Request lacks content");
@@ -143,3 +141,4 @@ exports.getFavoriteArticles = async (req, res) => {
   WHERE user_id = '${req.query.id}'`);
   return res.json(result);
 };
+*/
