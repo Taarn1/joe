@@ -27,10 +27,13 @@ app.get("/signup", (req, res) => {
 });
 
 //joinroom
-
+app.get("/joinroom", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/pages/joinroom.html"));
+});
 //chat
-
-
+app.get("/chat", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/pages/chat.html"));
+});
 
 app.get("/global.css", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/styles/global.css"));
