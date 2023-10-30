@@ -3,6 +3,8 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const bodyParser = require("body-parser");
+const path = require("path");
+
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
@@ -14,16 +16,21 @@ app.use("/test", testRoutes);
 
 app.use("/", userRoute);
 
-//forside
-app.get("/", (req, res) => res.send("Hello World!"));
-
-app.get("/home", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/pages/home.html"));
+//forside/login
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/pages/login.html"));
 });
 
-app.get("/home.js", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/scripts/home.js"));
+//sign up
+app.get("/signup", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/pages/signup.html"));
 });
+
+//joinroom
+
+//chat
+
+
 
 app.get("/global.css", (req, res) => {
   res.sendFile(path.join(__dirname, "../client/styles/global.css"));
