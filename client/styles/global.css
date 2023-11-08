@@ -1,15 +1,30 @@
+/* text */
+p,
+h1,
+h2,
+h5 {
+  font-family: Condensed, Arial, sans-serif;
+  line-height: 0.5;
+  color: rgb(41, 41, 41);
+}
+
+.italics {
+  font-style: italic;
+}
+
+/* navbar */
 ul {
   font-family: Condensed, Arial, sans-serif;
+  font-weight: bolder;
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
   background-color: #f7c1d9;
   font-size: 2em;
-}
-
-p {
-  font-family: Condensed, Arial, sans-serif;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 
 li {
@@ -29,14 +44,16 @@ li img {
   padding: 8px;
 }
 
-.active {
+.active,
+li a:hover:not(.active) {
   background-color: #f09bc1;
-  font-weight: bolder;
 }
 
-li a:hover {
-  background-color: #f088b7;
-  font-weight: bolder;
+input,
+#city {
+  border-radius: 5px;
+  border: 2px solid #f7c1d9;
+  padding: 5px;
 }
 
 .center {
@@ -62,6 +79,7 @@ li a:hover {
   background-color: #f09bc1;
 }
 
+/* chat */
 .messages {
   background-color: white;
   overflow: hidden;
@@ -80,10 +98,4 @@ li a:hover {
   display: inline-block;
   background-color: #f7c1d9;
   border-radius: 30px;
-}
-
-input {
-  border-radius: 5px;
-  border: 2px solid #f7c1d9;
-  padding: 5px;
 }
