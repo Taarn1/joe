@@ -43,6 +43,6 @@ sql = `
         FOREIGN KEY (userid) REFERENCES users(userid),
         FOREIGN KEY (itemid) REFERENCES menu(itemid)
     );
-`; 
+`;  
 db.run(sql);
-*/
+*/ 
