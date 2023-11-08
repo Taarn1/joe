@@ -1,11 +1,15 @@
 ul {
-  font-family: Calibri;
+  font-family: Condensed, Arial, sans-serif;
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
   background-color: #f7c1d9;
   font-size: 2em;
+}
+
+p {
+  font-family: Condensed, Arial, sans-serif;
 }
 
 li {
@@ -52,6 +56,10 @@ li a:hover {
   background-color: #f7c1d9;
   font-weight: bold;
   margin: 30px;
+}
+
+.center button:hover {
+  background-color: #f09bc1;
 }
 
 .messages {
