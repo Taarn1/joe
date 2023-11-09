@@ -2,6 +2,7 @@ const socket = io();
 
 const messages = document.getElementById("messages");
 const input = document.getElementById("input");
+
 // let username = "Anonymous";
 
 // if (localStorage.getItem("Username") != null) {
