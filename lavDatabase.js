@@ -16,17 +16,17 @@ const db = new sqlite.Database('./joeDatabase.sqlite', (err) => {
 `; 
 sql = `
     CREATE TABLE IF NOT EXISTS users (
-        userid INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT NOT NULL,
-        email TEXT NOT NULL,
-        password TEXT NOT NULL,
-        age INTEGER NOT NULL,
-        number INTEGER NOT NULL, 
-        prefered_cafe TEXT NOT NULL,
-        picid INTEGER,
-        FOREIGN KEY (picid) REFERENCES pictures(picid)
-        
-    );
+    userid INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    email TEXT NOT NULL,
+    password TEXT NOT NULL,
+    age INTEGER NOT NULL,
+    number INTEGER NOT NULL, 
+    cityid INTEGER,
+    picid INTEGER,
+    FOREIGN KEY (cityid) REFERENCES city(cityid),
+    FOREIGN KEY (picid) REFERENCES pictures(picid)
+);
 `;
 sql = `
     CREATE TABLE IF NOT EXISTS menu (
@@ -45,4 +45,5 @@ sql = `
     );
 `;  
 db.run(sql);
-*/ 
+*/
+
