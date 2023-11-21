@@ -1,3 +1,8 @@
+html, body{
+  height: 100%;
+  margin: 0;
+}
+
 /* text */
 p,
 h1,
@@ -101,3 +106,33 @@ input,
   background-color: #f7c1d9;
   border-radius: 30px;
 }
+
+.page{
+  display: flex;
+  flex-direction: row;
+}
+
+
+.bigBox{
+  display: flex;
+  flex-direction: column;
+}
+
+#leftSide {
+    display:flex;
+    background-color: #f7c1d9;
+    min-height: 100vh;
+    flex-grow: 1;
+} 
+
+#rigthSide {
+    display:flex;
+    min-height: 100vh;
+    flex-grow: 1;
+} 
+
+#messages{
+  display: flex;
+  flex-direction: column;
+}
+
