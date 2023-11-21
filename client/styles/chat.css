@@ -1,4 +1,31 @@
-/* chat */
+/*Chat */
+.chatPage{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.bigBox {
+  display: flex;
+  width: 100%;
+  margin-top: 4pc;
+  flex-direction: row;
+}
+
+#leftSide {
+  display: flex;
+  background-color: #f7c1d9;
+  height: 100%;
+  flex-grow: 1;
+}
+
+#rigthSide {
+  display: flex;
+  height: 100%;
+  flex-grow: 4;
+  flex-direction: column;
+}
+/*
 .messages {
   background-color: white;
   overflow: hidden;
@@ -19,28 +46,7 @@
   border-radius: 30px;
 }
 
-#bigBox{
-  display: flex;
-  flex-direction: row;
-}
-
-#leftSide {
-    display:flex;
-    background-color: #f7c1d9;
-    flex-direction: column;
-    width: 300px;
-    min-height: 100vh;
-    flex-grow: 1;
-} 
-
-#rigthSide {
-    display:flex;
-    flex-direction: column;
-    min-height: 100vh;
-    flex-grow: 1;
-} 
-
-#messages{
+#messages {
   display: flex;
   flex-direction: column;
-}
+}*/

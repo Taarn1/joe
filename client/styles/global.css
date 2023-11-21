@@ -1,6 +1,9 @@
+
 html, body{
   height: 100%;
+  width: 100%;
   margin: 0;
+  display: flex;
 }
 
 /* text */
@@ -86,53 +89,5 @@ input,
   background-color: #f09bc1;
 }
 
-/* chat */
-.messages {
-  background-color: white;
-  overflow: hidden;
-  font-size: 1em;
-}
-.messages li {
-  display: block;
-  float: initial;
-  color: rgb(36, 36, 36);
-  width: 500px;
-  background-color: #fcd2e6;
-}
 
-.chatArea {
-  width: 500px;
-  display: inline-block;
-  background-color: #f7c1d9;
-  border-radius: 30px;
-}
-
-.page{
-  display: flex;
-  flex-direction: row;
-}
-
-
-.bigBox{
-  display: flex;
-  flex-direction: column;
-}
-
-#leftSide {
-    display:flex;
-    background-color: #f7c1d9;
-    min-height: 100vh;
-    flex-grow: 1;
-} 
-
-#rigthSide {
-    display:flex;
-    min-height: 100vh;
-    flex-grow: 1;
-} 
-
-#messages{
-  display: flex;
-  flex-direction: column;
-}
 
