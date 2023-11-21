@@ -1,7 +1,7 @@
 const {sqlHandler} = require("./sqlHandler.js")
 
-async function matchFunction(sql) {
-    let users = await sqlHandler(sql)
+async function matchFunction() {
+    let users = await sqlHandler("SELECT * FROM sqlite_master;")
         console.log(users)
 }
-matchFunction("SELECT * FROM users;")
+matchFunction()
