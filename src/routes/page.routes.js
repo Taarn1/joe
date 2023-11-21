@@ -29,8 +29,8 @@ Router.get("/chat", (req, res) =>
 Router.get("/chat.js", (req, res) =>
   res.sendFile(path.join(__dirname, "../../client/scripts/chat.js"))
 );
-Router.get("/chat.css", (req, res) => 
+/*Router.get("/chat.css", (req, res) => 
 res.sendFile(path.join(__dirname, "../../client/styles/chat.css"))
-);
+);*/
 
 module.exports = Router;

@@ -68,6 +68,7 @@ input,
 
 .center {
   padding-top: 50px;
+  width: 100%;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -88,6 +89,5 @@ input,
 .center button:hover {
   background-color: #f09bc1;
 }
-
 
 

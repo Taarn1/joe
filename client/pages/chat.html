@@ -35,8 +35,11 @@
       <div id="chatPage">
         <div id="leftSide"></div>
         <div id="rightSide">
+          <div id="seeMessage"></div>
+          <div id="sendMessage">
           <input id="input" autocomplete="off" placeholder="Write here" />
-          <button onclick="sendChat()">Send</button>
+          <button id="button" onclick="sendChat()">Send</button>
+          </div>
         </div>
       </div>
     <script src="/socket.io/socket.io.js"></script>
