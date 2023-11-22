@@ -5,56 +5,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/global.css" />
+    <link rel="stylesheet" href="/chat.css" />
     <title>Connect</title>
   </head>
   <body>
-    <ul>
-      <li>
-        <img
-          src="https://assets-global.website-files.com/5cb303852da2ad609e57122e/5ecbabe94966c27dd864c461_Logo%20-%20Joe%20%26%20the%20Juice%20without%20Pink.png"
-          alt="Logo"
-        />
-      </li>
-      <li><a href="/profile">Profile</a></li>
-      <li><a href="/chat" class="active">Connect</a></li>
-      <li style="float: right">
-        <a href="http://142.93.172.19">Login</a>
-      </li>
-      <li style="float: right"><a href="/signup">Signup</a></li>
-      <li style="float: right">
-        <a
-          href="https://www.joejuice.com/store/5f871bf1-b0d1-4e2a-ac84-31047281cde9"
-          target="_blank"
-          >Menu</a
-        >
-      </li>
-    </ul>
-    <div class="center">
-      <div>
-        <label for="username">Enter username: </label>
-        <input type="text" id="username" />
-
-        <button onclick="changeUsername()">Change</button>
-
-        <div class="chatArea">
-          <p
-            style="
-              font-weight: bold;
-              font-family: 'Courier New', Courier, monospace;
-              font-style: italic;
-              font-size: 1.5em;
-            "
+      <ul id="top">
+        <li>
+          <img
+            src="https://assets-global.website-files.com/5cb303852da2ad609e57122e/5ecbabe94966c27dd864c461_Logo%20-%20Joe%20%26%20the%20Juice%20without%20Pink.png"
+            alt="Logo"
+          />
+        </li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/chat" class="active">Connect</a></li>
+        <li style="float: right">
+          <a href="/">Login</a>
+        </li>
+        <li style="float: right"><a href="/signup">Signup</a></li>
+        <li style="float: right">
+          <a
+            href="https://www.joejuice.com/store/5f871bf1-b0d1-4e2a-ac84-31047281cde9"
+            target="_blank"
+            >Menu</a
           >
-            Juice Chat
-          </p>
-          <ul class="messages" id="messages"></ul>
+        </li>
+      </ul>
 
+      <!--chat siden-->
+      <div id="chatPage">
+        <div id="leftSide"></div>
+        <div id="rightSide">
+          <div id="seeMessage"></div>
+          <div id="sendMessage">
           <input id="input" autocomplete="off" placeholder="Write here" />
-          <button onclick="sendChat()">Send</button>
+          <button id="button" onclick="sendChat()">Send</button>
+          </div>
         </div>
       </div>
-      <script src="/socket.io/socket.io.js"></script>
-    </div>
+    <script src="/socket.io/socket.io.js"></script>
   </body>
 
   <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

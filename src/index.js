@@ -17,5 +17,8 @@ app.use("/", pageRoutes);
 
 app.get("/global.css", (req, res) => 
   res.sendFile(path.join(__dirname, "../client/styles/global.css")))
+app.get("/chat.css", (req, res) =>
+  res.sendFile(path.join(__dirname, "../client/styles/chat.css"))
+);
 
 app.listen(port, () => console.log(`Joe app listening on port ${port}!`));
