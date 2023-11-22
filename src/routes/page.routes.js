@@ -11,6 +11,9 @@ Router.get("/", (req, res) =>
 Router.get("/signup", (req, res) =>
   res.sendFile(path.join(__dirname, "../../client/pages/signup.html"))
 );
+Router.get("/signup.js", (req, res) =>
+  res.sendFile(path.join(__dirname, "../../client/scripts/signup.js"))
+);
 
 //profile
 Router.get("/profile", (req, res) =>

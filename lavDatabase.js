@@ -1,3 +1,4 @@
+ /*
 const sqlite = require("sqlite3").verbose();
 let sql 
 
@@ -6,14 +7,15 @@ const db = new sqlite.Database('./joeDatabase.sqlite', (err) => {
         return console.error(err.message);
     }
     console.log('Connected to the lav database.');
-});
+}); 
 // Alt det følgende er bare for at lave tabellerne i databasen.
-/*sql = `
+sql = `
     CREATE TABLE IF NOT EXISTS pictures (
         picid INTEGER PRIMARY KEY AUTOINCREMENT,
         picurl TEXT NOT NULL
     );
 `; 
+
 sql = `
     CREATE TABLE IF NOT EXISTS users (
     userid INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,7 +29,7 @@ sql = `
     FOREIGN KEY (cityid) REFERENCES city(cityid),
     FOREIGN KEY (picid) REFERENCES pictures(picid)
 );
-`;
+`; 
 sql = `
     CREATE TABLE IF NOT EXISTS menu (
     itemid INTEGER PRIMARY KEY AUTOINCREMENT,

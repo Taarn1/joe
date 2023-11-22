@@ -9,11 +9,10 @@ const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
 
 //import routes
-//const userRoutes = require("./routes/users.routes");
-const pageRoutes = require("./routes/page.routes");
+const userRoutes = require("./routes/users.routes");
+const pageRoutes = require("./routes/page.routes"); 
 
-//use routes on /test
-//app.use("/user", userRoutes);
+app.use("/user", userRoutes);
 app.use("/", pageRoutes);
 
 app.get("/global.css", (req, res) => 

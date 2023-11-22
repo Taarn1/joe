@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/global.css" />
     <title>Signup</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/signup.js"></script>
   </head>
   <body>
     <ul>
@@ -45,7 +47,7 @@
         <p>Number</p>
         <input id="number" type="number" placeholder="Type here" />
         <p>Preferred city</p>
-        <select class="option">
+        <select class="option" id="cityoptions" onchange="updateCity()">
           <option value="Copenhagen">Copenhagen</option>
           <option value="Aarhus">Aarhus</option>
           <option value="Odense">Odense</option>
@@ -72,6 +74,4 @@
       </div>
     </div>
   </body>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="/signup.js"></script>
 </html>
