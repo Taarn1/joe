@@ -10,13 +10,14 @@ const fetch = (...args) =>
 
 //import routes
 const userRoutes = require("./routes/users.routes");
-const pageRoutes = require("./routes/page.routes"); 
+const pageRoutes = require("./routes/page.routes");
 
 app.use("/user", userRoutes);
 app.use("/", pageRoutes);
 
-app.get("/global.css", (req, res) => 
-  res.sendFile(path.join(__dirname, "../client/styles/global.css")))
+app.get("/global.css", (req, res) =>
+  res.sendFile(path.join(__dirname, "../client/styles/global.css"))
+);
 app.get("/chat.css", (req, res) =>
   res.sendFile(path.join(__dirname, "../client/styles/chat.css"))
 );
