@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function() {
 let user = {};
+const loginButton = document.getElementById("loginButton");
+loginButton.addEventListener("click", loginUser);
 
 function loginUser() {
   let username = document.getElementById("username").value;
