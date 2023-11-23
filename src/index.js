@@ -13,10 +13,9 @@ const fetch = (...args) =>
 const {createServer} = require("http");
 const {Server} = require("socket.io");
 const httpServer = createServer(app);
-const io = new Server(httpServer, {})
+const io = new Server(httpServer)
 
 io.on("connection", (socket) => {
-  // taget fra øvelse 3
   socket.on("chat message", (msg) => {
     io.emit("chat message", msg);
   });
@@ -36,11 +35,4 @@ app.use(cors());
 app.use("/user", userRoutes);
 app.use("/", pageRoutes);
 
-app.get("/global.css", (req, res) =>
-  res.sendFile(path.join(__dirname, "../client/styles/global.css"))
-);
-app.get("/chat.css", (req, res) =>
-  res.sendFile(path.join(__dirname, "../client/styles/chat.css"))
-);
-
-app.listen(port, () => console.log(`Joe app listening on port ${port}!`));
+httpServer.listen(port, () => console.log(`Joe app listening on port ${port}!`));
