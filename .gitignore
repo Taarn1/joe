@@ -1,6 +1,5 @@
 # .gitignore 
-node_modules/
-src/node_modules/.package-lock.json
+src/node_modules/
 src/node_modules/sqlite/build/Database.d.ts
 src/node_modules/sqlite/build/Database.js
 src/node_modules/sqlite/build/Database.js.map
