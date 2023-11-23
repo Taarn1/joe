@@ -1,11 +1,12 @@
-let responseDOM = document.getElementById("response");
+document.addEventListener("DOMContentLoaded", async function() {
 let user = {};
 let preferredCity;
 
 function updateCity() {
   preferredCity = document.getElementById("cityoptions").value;
 }
-
+const signupButton = document.getElementById("signupButton");
+signupButton.addEventListener("click", saveUser);
 function saveUser() {
   // Call updateCity before saveUser to ensure preferredCity is initialized
   updateCity();
@@ -33,4 +34,4 @@ function saveUser() {
     },
     body: JSON.stringify(user),
   })
-}
+}})

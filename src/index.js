@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const port = 3000;
 const app = express();
+const cors = require("cors");
 
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
@@ -11,6 +12,9 @@ const fetch = (...args) =>
 //import routes
 const userRoutes = require("./routes/users.routes");
 const pageRoutes = require("./routes/page.routes");
+
+//middleware 
+app.use(cors());
 
 app.use("/user", userRoutes);
 app.use("/", pageRoutes);

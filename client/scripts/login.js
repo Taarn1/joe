@@ -1,5 +1,4 @@
-let responseDOM = document.getElementById("response");
-
+document.addEventListener("DOMContentLoaded", async function() {
 let user = {};
 
 function loginUser() {
@@ -8,14 +7,11 @@ function loginUser() {
 
   user.username = username;
   user.password = password;
-
-  axios
-    .post("http://localhost:3000/login", user)
-    .then(async function (response) {
-      console.log(response.data);
-      responseDOM.innerHTML = response.data;
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-}
+  fetch("http://localhost:3000/user/login", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(user),
+})
+}}); 
