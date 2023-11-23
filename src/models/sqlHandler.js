@@ -25,5 +25,5 @@ const sqlHandler = (sql) => {
         });
     })
 }
-
+sqlHandler("insert into orders (userid, itemid) values (1, 2)")
 module.exports = {sqlHandler}
