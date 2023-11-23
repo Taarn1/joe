@@ -36,7 +36,6 @@ app.use(cors());
 app.use("/user", userRoutes);
 app.use("/", pageRoutes);
 
-<<<<<<< Updated upstream
 app.get("/global.css", (req, res) =>
   res.sendFile(path.join(__dirname, "../client/styles/global.css"))
 );
@@ -45,6 +44,3 @@ app.get("/chat.css", (req, res) =>
 );
 
 app.listen(port, () => console.log(`Joe app listening on port ${port}!`));
-=======
-httpServer.listen(port, () => console.log(`Joe app listening on port ${port}!`));
->>>>>>> Stashed changes
