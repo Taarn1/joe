@@ -1,29 +1,33 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 //write a function, usershandler that returns the result of "SELECT * FROM users"
-const sqlHandler = (sql) => {
+const sqlHandler = (sql, params) => {
     return new Promise((resolve, reject) => {
-        let db = new sqlite3.Database(path.resolve(__dirname, '../../joeDatabase.sqlite'), (err) => {
-            if (err) {
-                console.error(err.message);
-            }
-            console.log('Connected to the database.');
-        });
-        db.serialize(() => {
-            db.all(sql, (err, rows) => {
-                if (err) {
-                    reject(err)
-                }
-                resolve(rows)
+      let db = new sqlite3.Database(path.resolve(__dirname, '../../joeDatabase.sqlite'), (err) => {
+        if (err) {
+          console.error(err.message);
+          reject(err);
+        } else {
+          console.log('Connected to the database.');
+          db.serialize(() => {
+            db.all(sql, params, (err, rows) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(rows);
+              }
             });
-        });
-        db.close((err) => {
+          });
+          db.close((err) => {
             if (err) {
-                console.error(err.message);
+              console.error(err.message);
+              reject(err);
+            } else {
+              console.log('Close the database connection.');
             }
-            console.log('Close the database connection.');
-        });
-    })
-}
-sqlHandler("insert into orders (userid, itemid) values (1, 2)")
+          });
+        }
+      });
+    });
+  };
 module.exports = {sqlHandler}

@@ -16,6 +16,6 @@ router.put("/update/:id", (req, res) => usersController.updateUser(req, res));
 
 
 //match
-router.post("/match", (req, res) => usersController.match(req, res));
+router.get("/match/:id", (req, res) => usersController.match(req, res));
 
 module.exports = router;
