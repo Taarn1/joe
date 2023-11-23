@@ -73,6 +73,7 @@ input,
   justify-content: center;
   flex-direction: column;
   text-align: center;
+  margin-top: 20px;
 }
 
 .center button {
@@ -89,5 +90,7 @@ input,
 .center button:hover {
   background-color: #f09bc1;
 }
+
+
 
 
