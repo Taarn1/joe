@@ -4,7 +4,7 @@ const crypto = require("crypto");
 const { v4: uuidv4 } = require('uuid');
 //write a function, usershandler that returns the result of "SELECT * FROM users"
 
-const sqlHandler = require("../models/sqlHandler.js");
+const {sqlHandler} = require("../models/sqlHandler.js");
 const matchFunction = require("../models/match.js");
 
 

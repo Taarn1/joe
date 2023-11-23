@@ -27,3 +27,17 @@ src/node_modules/sqlite/CHANGELOG.md
 src/node_modules/sqlite/LICENSE
 src/node_modules/sqlite/package.json
 src/node_modules/sqlite/README.md
+src/node_modules/.bin/color-support
+src/node_modules/.bin/mime
+src/node_modules/.bin/mkdirp
+src/node_modules/.bin/node
+src/node_modules/.bin/node-gyp
+src/node_modules/.bin/node-pre-gyp
+src/node_modules/.bin/node-which
+src/node_modules/.bin/nopt
+src/node_modules/.bin/rimraf
+src/node_modules/.bin/semver
+src/node_modules/make-dir/node_modules/.bin/semver
+src/node_modules/mime/cli.js
+src/node_modules/mime/src/build.js
+src/node_modules/node/bin/node
