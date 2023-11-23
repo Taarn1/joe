@@ -8,7 +8,6 @@ const sqlHandler = require("../models/sqlHandler.js");
 const matchFunction = require("../models/match.js");
 
 
-/*
 exports.login = async (req, res) => {
   if (!req.body.username || !req.body.password) {
     return res.status(400).send("Request lacks content");
