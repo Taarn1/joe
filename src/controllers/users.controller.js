@@ -1,51 +1,40 @@
 const sqlite3 = require("sqlite3").verbose();
 const path = require ("path");
+const crypto = require("crypto");
+const { v4: uuidv4 } = require('uuid');
 //write a function, usershandler that returns the result of "SELECT * FROM users"
-const sqlHandler = (sql, params) => {
-  return new Promise((resolve, reject) => {
-    let db = new sqlite3.Database(path.resolve(__dirname, '../../joeDatabase.sqlite'), (err) => {
-      if (err) {
-        console.error(err.message);
-        reject(err);
-      } else {
-        console.log('Connected to the database.');
-        db.serialize(() => {
-          db.all(sql, params, (err, rows) => {
-            if (err) {
-              reject(err);
-            } else {
-              resolve(rows);
-            }
-          });
-        });
-        db.close((err) => {
-          if (err) {
-            console.error(err.message);
-            reject(err);
-          } else {
-            console.log('Close the database connection.');
-          }
-        });
-      }
-    });
-  });
-};
-/*
+
+const {sqlHandler} = require("../models/sqlHandler.js");
+const matchFunction = require("../models/match.js");
+
+
 exports.login = async (req, res) => {
-  if (!req.body.email || !req.body.password) {
+  if (!req.body.username || !req.body.password) {
     return res.status(400).send("Request lacks content");
   }
-  const result = await db.run(
-    `SELECT user_id, user_email, user_password, username FROM users 
-    WHERE user_email = '${req.body.email}' AND user_password = '${req.body.password}'`
+  const result = await sqlHandler(
+    `SELECT userid, email, password, username FROM users 
+    WHERE username = ? AND password = ?`,
+    [req.body.username, req.body.password]
   );
-  if (Object.keys(result).length) {
-    return res.status(201).send(result);
+  if (result.length > 0) {
+    console.log(req.body.username + " logged in");
+    const userId = result[0].userid;
+    const cookieOptions = {
+      httpOnly: true,
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+      sameSite: 'Strict',
+      path: '/',
+    };
+    const sessionId = uuidv4(); // Generate a unique session ID
+    res.cookie('userId', userId, cookieOptions);
+    res.cookie('sessionId', sessionId, cookieOptions);
+    return res.status(201).send(result); 
   } else {
-    return res.status(400).send("User not found");
+    console.log(req.body.username + "User not found")
+    return res.status(400).send("User not found")
   }
-}; 
-*/
+};
 // opret bruger
 exports.signUp = async (req, res) => {
   if (!req.body.email || !req.body.password || !req.body.username) {
@@ -78,35 +67,19 @@ exports.signUp = async (req, res) => {
       .send("An error occurred while trying to create the user");
   }
 };
-/* 
-// find bruger
-exports.getUser = async (req, res) => {
-  const result = await executeSQL(
-    `SELECT user_id, user_email, user_password, username FROM users 
-    WHERE user_id = '${req.params.id}'`
-  );
-  res.send(result);
-};
 
-// opdater bruger
-exports.updateUser = async (req, res) => {
-  if (!req.params.id || !req.body.password || !req.body.username) {
-    return res.status(400).send("Request lacks content");
+// match
+exports.match = async (req, res) => {
+  //check for user id
+
+
+  try {
+    // finder matches
+    const match = await matchFunction.matchFunction(req.params.id);
+    // returner matches
+    return res.status(201).send(match);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("An error occurred while trying to match");
   }
-  await executeSQL(
-    `UPDATE users
-    SET user_password = '${req.body.password}', username = '${req.body.username}'
-    WHERE user_id = ${req.params.id}`
-  );
-  res.status(200).send(req.body);
 };
-
-// slet bruger
-exports.deleteUser = async (req, res) => {
-  if (!req.params.id) return res.status(400).send("Request lacks ID");
-  const query = await executeSQL(
-    `DELETE users WHERE user_id = ${req.params.id}`
-  );
-  res.status(200).send("User deleted");
-};
-*/

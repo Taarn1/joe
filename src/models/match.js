@@ -1,7 +1,12 @@
 const {sqlHandler} = require("./sqlHandler.js")
 
-const matchFunction = async ()=> {
-    let users = await sqlHandler("SELECT * FROM sqlite_master;")
-        console.log(users)
+exports.matchFunction = async (userid)=> {
+    const selectUsersQuery = `
+    SELECT DISTINCT o.userid, users.username, o.itemid 
+    FROM users 
+    JOIN orders o ON users.userid = o.userid
+    where users.userid <> ${userid} AND o.itemid in (select itemid from orders where userid = ${userid})`
+    const match = await sqlHandler(selectUsersQuery)
+    console.log(match)
+    return match
 }
-matchFunction()

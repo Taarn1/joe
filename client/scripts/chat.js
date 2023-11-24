@@ -1,22 +1,26 @@
-/*const socket = io();
+const socket = io();
 
-const messages = document.getElementById("sendMessage");
+// Der hvor beskederne bliver vist 
+const seeMessages = document.getElementById("seeMessage");
+// tekstinputfelt 
 const input = document.getElementById("input");
+// bruger 
+let username = "Anonymous";
 
-// let username = "Anonymous";
+socket.emit("user joined", username);
 
-// if (localStorage.getItem("Username") != null) {
-//   username = localStorage.getItem("Username");
-// }
-
-// form.addEventListener('submit', (e) => {
-//   e.preventDefault();
-//   if (input.value) {
-//     socket.emit('chat message', input.value);
-//     input.value = '';
-//   }
-// });
-
+// denne skal laves om til at username bliver til den bruger som er logget ind 
+function changeUsername() {
+  username = document.getElementById("username").value;
+  if (!username == "") {
+    localStorage.setItem("Username", username);
+  } else {
+    localStorage.setItem("Username", "Anonymous");
+  }
+  socket.emit("user joined", username);
+  document.getElementById("username").value = "";
+  console.log(username);
+}
 
 function sendChat() {
   if (input.value) {
@@ -28,7 +32,7 @@ function sendChat() {
 socket.on("chat message", (msg) => {
   const item = document.createElement("li");
   item.textContent = msg;
-  messages.appendChild(item);
+  seeMessage.appendChild(item);
   window.scrollTo(0, document.body.scrollHeight);
 });
 
@@ -44,15 +48,4 @@ function getCookie(name) {
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) return parts.pop().split(";").shift();
 }
-
-function changeUsername() {
-  username = document.getElementById("username").value;
-
-  if (username == "") {
-    alert("Skriv et nyt brugernavn");
-    return;
-  } else document.cookie = `userAuth=${username}`;
-
-  socket.emit("user joined", username);
-  document.getElementById("username").value = "";
-}*/
+*/

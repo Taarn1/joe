@@ -6,9 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/global.css" />
     <link rel="stylesheet" href="/chat.css" />
-    <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="http://localhost:3000/socket.io/socket.io.js"></script> -->
-    <script src="/chat.js"></script>
     <title>Connect</title>
   </head>
   <body>
@@ -41,7 +38,12 @@
 
       <!--chat siden-->
       <div id="chatPage">
-        <div id="leftSide"></div>
+        <div id="leftSide"><div>
+    <label for="username">Enter username: </label> 
+    <input type="text" id="username">
+    
+    <button onclick="changeUsername()">Change</button></div>
+  </div>
         <div id="rightSide">
           <div id="seeMessage"></div>
           <div id="sendMessage">
@@ -50,7 +52,11 @@
           </div>
         </div>
       </div>
-    </div>
-    <!--<script src="/socket.io/socket.io.js"></script> Tror det her skal slettes-->
+    <!--GET endpoint-->
+      <script src="/socket.io/socket.io.js"></script> 
   </body>
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="http://localhost:3000/socket.io/socket.io.js"></script> -->
+  <script src="/chat.js"></script>
 </html>

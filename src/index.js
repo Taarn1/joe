@@ -4,9 +4,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const port = 3000;
 const app = express();
-
-// middleware
-app.use(express.static("client"));
+const cors = require("cors");
 
 const fetch = (...args) =>
   import("node-fetch").then(({ default: fetch }) => fetch(...args));
@@ -15,10 +13,9 @@ const fetch = (...args) =>
 const { createServer } = require("http");
 const { Server } = require("socket.io");
 const httpServer = createServer(app);
-const io = new Server(httpServer, {});
+const io = new Server(httpServer);
 
 io.on("connection", (socket) => {
-  // taget fra øvelse 3
   socket.on("chat message", (msg) => {
     io.emit("chat message", msg);
   });
@@ -31,6 +28,9 @@ io.on("connection", (socket) => {
 //import routes
 const userRoutes = require("./routes/users.routes");
 const pageRoutes = require("./routes/page.routes");
+
+//middleware
+app.use(cors());
 
 app.use("/user", userRoutes);
 app.use("/", pageRoutes);

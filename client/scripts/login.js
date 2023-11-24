@@ -1,23 +1,20 @@
-let responseDOM = document.getElementById("response");
+document.addEventListener("DOMContentLoaded", async function () {
+  let user = {};
+  const loginButton = document.getElementById("loginButton");
+  loginButton.addEventListener("click", loginUser);
 
-let user = {};
+  function loginUser() {
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
 
-function loginUser() {
-  let username = document.getElementById("username").value;
-  let password = document.getElementById("password").value;
-
-  user.username = username;
-  user.password = password;
-
-  axios
-    .post("http://localhost:3000/login", user)
-    .then(async function (response) {
-      console.log(response.data);
-      responseDOM.innerHTML = response.data;
-    })
-    .catch(function (error) {
-      console.log(error);
+    user.username = username;
+    user.password = password;
+    fetch("http://localhost:3000/user/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
     });
-  // redirect to profile page
-  window.location.href = "http://localhost:3000/profile";
-}
+  }
+});

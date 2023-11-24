@@ -57,7 +57,7 @@
           <p>Number</p>
           <input id="number" type="number" placeholder="Type here" />
           <p>Preferred city</p>
-          <select class="option" id="cityoptions" onchange="updateCity()">
+          <select class="option" id="cityoptions">
             <option value="Copenhagen">Copenhagen</option>
             <option value="Aarhus">Aarhus</option>
             <option value="Odense">Odense</option>
@@ -77,11 +77,10 @@
           </div>
         </div>
 
-        <div id="signupButton">
-          <button onclick="saveUser()">Create user</button>
-          <p>Already a user? <a href="/">Login here</a></p>
-          <p id="response"></p>
-        </div>
+      <div id="signupButton">
+        <button id="signupButton">Create user</button>
+        <p>Already a user? <a href="/">Login here.</a></p>
+        <p id="response"></p>
       </div>
     </div>
   </body>

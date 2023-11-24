@@ -1,11 +1,16 @@
-let responseDOM = document.getElementById("response");
+document.addEventListener("DOMContentLoaded", async function() {
 let user = {};
 let preferredCity;
+
+const preferredCityOption = document.getElementById("cityoptions");
+preferredCityOption.addEventListener("change", updateCity);
 
 function updateCity() {
   preferredCity = document.getElementById("cityoptions").value;
 }
 
+const signupButton = document.getElementById("signupButton");
+signupButton.addEventListener("click", saveUser);
 function saveUser() {
   // Call updateCity before saveUser to ensure preferredCity is initialized
   updateCity();

@@ -6,7 +6,9 @@ const Router = express.Router();
 Router.get("/", (req, res) =>
   res.sendFile(path.join(__dirname, "../../client/pages/login.html"))
 );
-
+Router.get("/login.js", (req, res) => 
+  res.sendFile(path.join(__dirname, "../../client/scripts/login.js"))
+);
 //sign up
 Router.get("/signup", (req, res) =>
   res.sendFile(path.join(__dirname, "../../client/pages/signup.html"))
