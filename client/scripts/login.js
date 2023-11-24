@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", async function () {
   let user = {};
+
   const loginButton = document.getElementById("loginButton");
   loginButton.addEventListener("click", loginUser);
-
   function loginUser() {
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
@@ -16,5 +16,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       },
       body: JSON.stringify(user),
     });
+    // redirect to profile page
+    window.location.href = "http://localhost:3000/profile";
   }
 });
