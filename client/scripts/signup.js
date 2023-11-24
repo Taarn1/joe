@@ -32,5 +32,7 @@ function saveUser() {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(user),
-  })
+  });
+  // redirect to profile page
+  window.location.href = "http://localhost:3000/profile";
 }

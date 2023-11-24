@@ -1,82 +1,112 @@
-
-html, body{
-  height: 100%;
-  width: 100%;
-  margin: 0;
+body {
+  background-color: rgb(255, 255, 255);
   display: flex;
+  flex-direction: row;
+  margin: 0px; /* går helt ud til kanten */
+  height: 100vh;
+}
+
+.main {
+  /*display: flex;
+  flex-direction: column;*/
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  background-color: #f7c1d9;
+  height: 60px;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.headerLine {
+  display: flex;
+  position: fixed;
+  z-index: 1;
+  background-color: black;
+  width: 100%;
+  height: 2px;
+  margin-top: 60px;
+}
+
+.leftSideHeader {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  justify-content: left;
+}
+
+.rightSideHeader {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  justify-content: right;
+}
+
+img {
+  display: block;
+  margin: 1%;
+}
+
+.active {
+  text-decoration: underline;
 }
 
 /* text */
+.leftSideHeaderText,
+.rightSideHeaderText,
+.active {
+  align-items: center;
+  display: flex;
+  font-weight: bolder;
+}
+
+.text:hover {
+  background-color: #f09bc1;
+  height: 60px;
+  align-items: center;
+  display: flex;
+}
+
+.text,
+.active {
+  margin-left: 10%;
+  font-size: x-large;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+}
+
 p,
 h1,
 h2,
 h3,
 h4,
-h5 {
+h5,
+a {
   font-family: Condensed, Arial, sans-serif;
   line-height: 0.5;
   color: rgb(41, 41, 41);
+  text-decoration: none;
 }
 
 .italics {
   font-style: italic;
 }
 
-/* navbar */
-ul {
-  font-family: Condensed, Arial, sans-serif;
-  font-weight: bolder;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: #f7c1d9;
-  font-size: 2em;
-  position: fixed;
-  top: 0;
-  width: 100%;
-}
-
-li {
-  float: left;
-}
-
-li a {
-  display: block;
-  color: rgb(41, 41, 41);
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-li img {
-  display: block;
-  width: 65px;
-  padding: 8px;
-}
-
-.active,
-li a:hover:not(.active) {
-  background-color: #f09bc1;
-}
-
-input,
-.option {
-  border-radius: 5px;
-  border: 2px solid #f7c1d9;
-  padding: 5px;
-}
-
-.center {
-  padding-top: 50px;
+/* content */
+.content {
+  margin-top: 60px;
   width: 100%;
   display: flex;
   justify-content: center;
   flex-direction: column;
   text-align: center;
-  margin-top: 20px;
 }
 
-.center button {
+.content button {
   border: 2px solid black;
   border-radius: 10px;
   padding: 10px;
@@ -87,10 +117,13 @@ input,
   margin: 30px;
 }
 
-.center button:hover {
+.content button:hover {
   background-color: #f09bc1;
 }
 
-
-
-
+input,
+.option {
+  border-radius: 5px;
+  border: 2px solid #f7c1d9;
+  padding: 5px;
+}

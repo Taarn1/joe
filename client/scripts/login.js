@@ -18,4 +18,6 @@ function loginUser() {
     .catch(function (error) {
       console.log(error);
     });
+  // redirect to profile page
+  window.location.href = "http://localhost:3000/profile";
 }
