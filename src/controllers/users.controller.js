@@ -75,9 +75,9 @@ exports.signUp = async (req, res) => {
     return res.status(400).send("E-mail or username already in use");
   }
   try {
-    // opretter en ny bruger i databasen 
-      await sqlHandler(
-        `INSERT INTO users (username, email, password, age, number, cityid, picid)
+    // opretter en ny bruger i databasen
+    await sqlHandler(
+      `INSERT INTO users (username, email, password, age, number, cityid, picid)
          VALUES (?, ?, ?, ?, ?, (SELECT cityid FROM city WHERE cityname = ?),
                  (SELECT seq + 1 FROM sqlite_sequence WHERE name = 'pictures'))`,
         [req.body.username, req.body.email,hashedPassword, req.body.age, req.body.number, req.body.preferredCity]
@@ -95,13 +95,18 @@ exports.signUp = async (req, res) => {
   }
 }; 
 // match
-exports.match = async (req, res) => {
+exports.findMatch = async (req, res) => {
   //check for user id
-
 
   try {
     // finder matches
-    const match = await matchFunction.matchFunction(req.params.id);
+    const match = await matchFunction.matchFunction(req.params.userid);
+    if(match.length === 0){
+      return res.status(400).send("No matches found. You can increase your chances by buying more products");
+    }
+    sqlHandler(`INSERT INTO matches (user1_id user2_id) VALUES (?, ?)
+    `, [Number(match[0].userid), Number(req.params.id)]);
+
     // returner matches
     return res.status(201).send(match);
   } catch (error) {
