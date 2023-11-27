@@ -20,18 +20,18 @@ exports.login = async (req, res) => {
   if (result.length > 0) {
     const userId = result[0].userid;
     const cookieOptions = {
-      httpOnly: true,
+      httpOnly: false,
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-      sameSite: "Strict",
-      path: "/",
+      sameSite: 'strict',
+      path: '/',
     };
     const sessionId = uuidv4(); // Generate a unique session ID
     res.cookie("userId", userId, cookieOptions);
     res.cookie("sessionId", sessionId, cookieOptions);
     return res.status(201).send(result);
   } else {
-    console.log(req.body.username + "User not found");
-    return res.status(400).send("User not found");
+    console.log(req.body.username + " User not found")
+    return res.status(400).send("User not found")
   }
 };
 // opret bruger
@@ -77,12 +77,18 @@ exports.signUp = async (req, res) => {
 };
 
 // match
-exports.match = async (req, res) => {
+exports.findMatch = async (req, res) => {
   //check for user id
 
   try {
     // finder matches
-    const match = await matchFunction.matchFunction(req.params.id);
+    const match = await matchFunction.matchFunction(req.params.userid);
+    if(match.length === 0){
+      return res.status(400).send("No matches found. You can increase your chances by buying more products");
+    }
+    sqlHandler(`INSERT INTO matches (user1_id user2_id) VALUES (?, ?)
+    `, [Number(match[0].userid), Number(req.params.id)]);
+
     // returner matches
     return res.status(201).send(match);
   } catch (error) {
