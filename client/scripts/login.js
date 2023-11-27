@@ -15,8 +15,18 @@ document.addEventListener("DOMContentLoaded", async function () {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
-    });
-    // redirect to profile page
-    window.location.href = "http://localhost:3000/profile";
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Redirect to profile page
+          window.location.href = "http://localhost:3000/profile";
+        } else {
+          // Handle login error
+          console.error("Login failed");
+        }
+      })
+      .catch((error) => {
+        console.error("Login failed", error);
+      });
   }
 });

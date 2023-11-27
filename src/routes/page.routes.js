@@ -22,6 +22,7 @@ Router.get("/profile", (req, res) =>
   res.sendFile(path.join(__dirname, "../../client/pages/profile.html"))
 );
 
+
 //joinroom
 Router.get("/joinroom", (req, res) =>
   res.sendFile(path.join(__dirname, "../../client/pages/joinroom.html"))

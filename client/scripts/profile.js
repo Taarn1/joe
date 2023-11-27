@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     return (window.location = "http://localhost:3000/login");
   }
   user = user["1"];
-
   // get user info
   document.querySelector("#showUsername").innerHTML = user.username;
   document.querySelector("#showEmail").innerHTML = user.email;
