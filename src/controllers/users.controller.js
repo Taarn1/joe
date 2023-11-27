@@ -6,6 +6,8 @@ const { v4: uuidv4 } = require('uuid');
 
 const {sqlHandler} = require("../models/sqlHandler.js");
 const matchFunction = require("../models/match.js");
+const hash = crypto.createHash('sha256');
+
 
 
 exports.login = async (req, res) => {
@@ -15,10 +17,9 @@ exports.login = async (req, res) => {
   const result = await sqlHandler(
     `SELECT userid, email, password, username FROM users 
     WHERE username = ? AND password = ?`,
-    [req.body.username, req.body.password]
+    [req.body.username, hash.update(req.body.password, 'utf-8').digest('hex')]
   );
   if (result.length > 0) {
-    console.log(req.body.username + " logged in");
     const userId = result[0].userid;
     const cookieOptions = {
       httpOnly: true,
@@ -41,11 +42,11 @@ exports.signUp = async (req, res) => {
     return res.status(400).send("Request lacks content");
   }
  //check om mail er i brug
-  let check = await sqlHandler(`SELECT userid, username, email, password FROM users WHERE email = ?`,
-        [req.body.email]);
+  let check = await sqlHandler(`SELECT userid, username, email, password FROM users WHERE email = ? OR username = ?` ,
+        [req.body.email, req.body.username]);
   // hvis check er længere end 0, findes e-mailen allerede
   if (Object.keys(check).length) {
-    return res.status(400).send("E-mail already in use");
+    return res.status(400).send("E-mail or username already in use");
   }
   try {
     // opretter en ny bruger i databasen 
@@ -53,7 +54,7 @@ exports.signUp = async (req, res) => {
         `INSERT INTO users (username, email, password, age, number, cityid, picid)
          VALUES (?, ?, ?, ?, ?, (SELECT cityid FROM city WHERE cityname = ?),
                  (SELECT seq + 1 FROM sqlite_sequence WHERE name = 'pictures'))`,
-        [req.body.username, req.body.email, req.body.password, req.body.age, req.body.number, req.body.preferredCity]
+        [req.body.username, req.body.email, hash.update(req.body.password, 'utf-8').digest('hex'), req.body.age, req.body.number, req.body.preferredCity]
       );
 
     // returner den nye bruger
