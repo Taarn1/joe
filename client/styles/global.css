@@ -14,7 +14,6 @@ body {
 
 .header {
   display: flex;
-  flex-direction: row;
   background-color: #f7c1d9;
   height: 60px;
   width: 100%;

@@ -38,12 +38,11 @@
 
       <!--chat siden-->
       <div id="chatPage">
-        <div id="leftSide"><div>
-    <label for="username">Enter username: </label> 
-    <input type="text" id="username">
-    
-    <button onclick="changeUsername()">Change</button></div>
-  </div>
+        <!--ikke stylet-->
+        <div id="leftSide">
+          <div id="chatList"></div>
+        </div>
+
         <div id="rightSide">
           <div id="seeMessage"></div>
           <div id="sendMessage">
@@ -52,8 +51,9 @@
           </div>
         </div>
       </div>
+    </div>
     <!--GET endpoint-->
-      <script src="/socket.io/socket.io.js"></script> 
+    <script src="/socket.io/socket.io.js"></script>
   </body>
 
   <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
