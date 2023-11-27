@@ -49,3 +49,12 @@ sql = `
 db.run(sql);
 */
 
+/*`
+  CREATE TABLE matches (
+    match_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user1_id INTEGER NOT NULL,
+    user2_id INTEGET NOT NULL,
+    CONSTRAINT different_users CHECK (user1_id <> user2_id),
+    CONSTRAINT fk_user1 FOREIGN KEY (user1_id) REFERENCES users(user_id),
+    CONSTRAINT fk_user2 FOREIGN KEY (user2_id) REFERENCES users(user_id)
+);` */

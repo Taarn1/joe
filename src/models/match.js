@@ -7,6 +7,5 @@ exports.matchFunction = async (userid)=> {
     JOIN orders o ON users.userid = o.userid
     where users.userid <> ${userid} AND o.itemid in (select itemid from orders where userid = ${userid})`
     const match = await sqlHandler(selectUsersQuery)
-    console.log(match)
     return match
 }
