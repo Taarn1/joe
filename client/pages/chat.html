@@ -9,46 +9,51 @@
     <title>Connect</title>
   </head>
   <body>
-      <ul id="top">
-        <li>
+    <div class="main">
+      <div class="header">
+        <div class="leftSideHeader">
           <img
             src="https://assets-global.website-files.com/5cb303852da2ad609e57122e/5ecbabe94966c27dd864c461_Logo%20-%20Joe%20%26%20the%20Juice%20without%20Pink.png"
             alt="Logo"
           />
-        </li>
-        <li><a href="/profile">Profile</a></li>
-        <li><a href="/chat" class="active">Connect</a></li>
-        <li style="float: right">
-          <a href="/">Login</a>
-        </li>
-        <li style="float: right"><a href="/signup">Signup</a></li>
-        <li style="float: right">
-          <a
-            href="https://www.joejuice.com/store/5f871bf1-b0d1-4e2a-ac84-31047281cde9"
-            target="_blank"
-            >Menu</a
-          >
-        </li>
-      </ul>
+          <div class="leftSideHeaderText">
+            <a class="text" href="/profile">PROFILE</a>
+            <a class="active" class="text" href="/chat">CONNECT</a>
+          </div>
+        </div>
+        <div class="rightSideHeader">
+          <div class="rightSideHeaderText">
+            <a class="text" href="/">LOGIN</a>
 
-      <!--chat siden-->
-      <div id="chatPage">
-        <div id="leftSide"><div>
-    <label for="username">Enter username: </label> 
-    <input type="text" id="username">
-    
-    <button onclick="changeUsername()">Change</button></div>
-  </div>
-        <div id="rightSide">
-          <div id="seeMessage"></div>
-          <div id="sendMessage">
-          <input id="input" autocomplete="off" placeholder="Write here" />
-          <button id="button" onclick="sendChat()">Send</button>
+            <a class="text" href="/signup">SIGNUP</a>
+            <a
+              class="text"
+              href="https://www.joejuice.com/store/5f871bf1-b0d1-4e2a-ac84-31047281cde9"
+              target="_blank"
+              >MENU</a
+            >
           </div>
         </div>
       </div>
+
+      <!--chat siden-->
+      <div id="chatPage">
+        <!--ikke stylet-->
+        <div id="leftSide">
+          <div id="chatList"></div>
+        </div>
+
+        <div id="rightSide">
+          <div id="seeMessage"></div>
+          <div id="sendMessage">
+            <input id="input" autocomplete="off" placeholder="Write here" />
+            <button id="button" onclick="sendChat()">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!--GET endpoint-->
-      <script src="/socket.io/socket.io.js"></script> 
+    <script src="/socket.io/socket.io.js"></script>
   </body>
 
   <!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
