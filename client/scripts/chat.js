@@ -20,6 +20,7 @@ function sendChat() {
 socket.on("chat message", (msg) => {
   const item = document.createElement("li");
   item.textContent = msg;
+  item.setAttribute("id", "item")
   seeMessage.appendChild(item);
   window.scrollTo(0, document.body.scrollHeight);
 })

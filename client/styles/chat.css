@@ -31,6 +31,7 @@
 #seeMessage {
   display: flex;
   flex-grow: 1;
+  flex-direction: column;
 }
 
 #sendMessage {
@@ -57,28 +58,11 @@
 #button:hover {
   background-color: #f09bc1;
 }
-/*
-.messages {
-  background-color: white;
-  overflow: hidden;
-  font-size: 1em;
-}
-.messages li {
-  display: block;
-  float: initial;
-  color: rgb(36, 36, 36);
-  width: 500px;
-  background-color: #fcd2e6;
-}
 
-.chatArea {
-  width: 500px;
-  display: inline-block;
-  background-color: #f7c1d9;
-  border-radius: 30px;
-}
-
-#messages {
+#item {
   display: flex;
-  flex-direction: column;
-}*/
+  border: #f09bc1;
+  justify-content: flex-end;
+  margin-right: 30px;
+  margin-top: 10px;
+}

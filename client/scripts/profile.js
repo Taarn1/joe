@@ -1,23 +1,40 @@
+console.log("profile.js loaded");
 document.addEventListener("DOMContentLoaded", async () => {
-  // check if a user is logged in
-  let cookie = document.cookie;
-  if (!cookie) return (window.location.href = "http://localhost:3000/login");
-  const id = cookie.split("=")[1];
-  let user = await fetch("http://localhost:3000/user" + id).then((r) =>
-    r.json()
-  );
-  if (!Object.keys(user).length) {
-    // one more check if the user is logged in
-    document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/"; // deleting the user if not logged in
-    alert("You will be forwarded to login");
-    return (window.location = "http://localhost:3000/login");
+  // Function to load user profile 
+  
+  const getCookie = (cname)=> {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
   }
-  user = user["1"];
-
-  // get user info
-  document.querySelector("#showUsername").innerHTML = user.username;
-  document.querySelector("#showEmail").innerHTML = user.email;
-  document.querySelector("#showAge").innerHTML = user.age;
-  document.querySelector("#showNumber").innerHTML = user.number;
-  document.querySelector("#showCity").innerHTML = user.preferredCity;
+  let userid = getCookie("sessionId");
+  console.log(userid);
+  const loadProfile = async () => {
+    // Check if the user is logged in
+    if (!document.cookie) {
+      //window.location.href = "/";
+    }
+    else if (document.cookie) {
+      // Get user id from cookie
+      const userId = document.cookie.split("=")[1];
+      // Get user info from database
+      const response = await fetch(`http://localhost:3000/user/getUser/${userId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }
+  };
+  loadProfile();
 });
