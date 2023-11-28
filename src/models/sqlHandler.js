@@ -30,4 +30,5 @@ const sqlHandler = (sql, params) => {
       });
     });
   };
+//  sqlHandler(`delete from matches where match_id >0`)
 module.exports = {sqlHandler}
