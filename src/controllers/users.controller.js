@@ -93,7 +93,29 @@ exports.signUp = async (req, res) => {
       .status(500)
       .send("An error occurred while trying to create the user");
   }
-}; 
+};  
+// Hent bruger 
+exports.getUser = async (req, res) => {
+  //check for user id
+  console.log(req.params.id);
+  if (!req.params.id) {
+    return res.status(400).send("Request lacks content");
+  }
+  try {
+    // finder bruger
+    const user = await sqlHandler(
+      `SELECT userid, username, email, age, number, cityname, picid FROM users 
+      WHERE userid = ?`,
+      [req.params.id]
+    );
+
+    // returner bruger
+    return res.status(201).send(user);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("An error occurred while trying to get user");
+  }
+};
 // match
 exports.findMatch = async (req, res) => {
   //check for user id
