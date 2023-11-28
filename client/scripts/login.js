@@ -1,4 +1,4 @@
-document.addEventListener("DOMntentLoaded", async function () {
+document.addEventListener("DOMContentLoaded", async function () {
   let user = {};
 
   const loginButton = document.getElementById("loginButton");

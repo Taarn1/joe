@@ -39,9 +39,9 @@ exports.login = async (req, res) => {
       if (passwordMatch) {
         const userId = result[0].userid;
         const cookieOptions = {
-          httpOnly: true,
+          httpOnly: false,
           expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-          sameSite: 'Strict',
+          sameSite: 'lax',
           path: '/',
         };
         const sessionId = uuidv4(); // Generate a unique session ID
@@ -97,16 +97,18 @@ exports.signUp = async (req, res) => {
 // Hent bruger 
 exports.getUser = async (req, res) => {
   //check for user id
-  console.log(req.params.id);
-  if (!req.params.id) {
+  userId = req.params.id.split("=")[1]; 
+  if (!userId) {
     return res.status(400).send("Request lacks content");
   }
   try {
     // finder bruger
     const user = await sqlHandler(
-      `SELECT userid, username, email, age, number, cityname, picid FROM users 
-      WHERE userid = ?`,
-      [req.params.id]
+      `SELECT users.userid, users.username, users.email, users.age, users.number, city.cityname, users.picid
+      FROM users
+      INNER JOIN city ON users.cityid = city.cityid
+      WHERE users.userid = ?`,
+      [userId]
     );
 
     // returner bruger
