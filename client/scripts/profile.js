@@ -11,15 +11,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       // Get user id from cookie
       const userId = document.cookie.split("=")[1];
       // Get user info from database
-      const response = await fetch(
-        `http://localhost:3000/user/getUser/${userId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`/user/getUser/id=${userId}`); 
     }
   };
   loadProfile();
