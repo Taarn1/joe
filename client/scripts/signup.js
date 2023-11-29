@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", async function () {
   let user = {};
   let preferredCity;
+  let cookie = document.cookie;
 
   const preferredCityOption = document.getElementById("cityoptions");
   preferredCityOption.addEventListener("change", updateCity);
-
   function updateCity() {
     preferredCity = document.getElementById("cityoptions").value;
   }
@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   const signupButton = document.getElementById("signupButton");
   signupButton.addEventListener("click", saveUser);
   function saveUser() {
+    if (cookie) return alert("You are already logged in");
     // Call updateCity before saveUser to ensure preferredCity is initialized
     updateCity();
 
