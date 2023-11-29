@@ -1,6 +1,8 @@
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 //write a function, usershandler that returns the result of "SELECT * FROM users"
+
+
 const sqlHandler = (sql, params) => {
     return new Promise((resolve, reject) => {
       let db = new sqlite3.Database(path.resolve(__dirname, '../../joeDatabase.sqlite'), (err) => {
@@ -30,5 +32,5 @@ const sqlHandler = (sql, params) => {
       });
     });
   };
-//  sqlHandler(`delete from matches where match_id >0`)
+
 module.exports = {sqlHandler}

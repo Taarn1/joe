@@ -1,5 +1,5 @@
 const socket = io();
-
+document.addEventListener("DOMContentLoaded", async () => {
 // Der hvor beskederne bliver vist 
 const seeMessages = document.getElementById("seeMessage");
 // tekstinputfelt 
@@ -8,11 +8,16 @@ const input = document.getElementById("input");
 
 
 
-// denne skal laves om til at username bliver til den bruger som er logget ind 
+//mockup til at få det til at virke
+let userId = 1;
 
-function sendChat() {
-  if (input.value) {
-    socket.emit("chat message", ": " + input.value);
+//hent matches for denne bruger
+const matches = await fetch(`http://localhost:3000/user/matches/${userId}`).then((res) => res.json());
+
+
+const sendMessage = () => {
+    const message = input.value;
+    socket.emit("message", { message, userId });
     input.value = "";
   }
 }

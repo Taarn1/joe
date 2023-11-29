@@ -145,3 +145,23 @@ exports.findMatch = async (req, res) => {
     return res.status(500).send("An error occurred while trying to match");
   }
 };
+
+// virker ikke
+exports.getMatches = async (req, res) => {
+  try {
+    // Check for user id
+    if (!req.params.userid) {
+      return res.status(400).send("Request lacks content");
+    }
+    
+    let userId = req.params.userid;
+
+    // Find matches
+    sqlHandler(`select * from matches where`).then((result) => {    });
+
+    // Respond with matches
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(`An error occurred while trying to get matches: ${error.message}`);
+  }
+};
