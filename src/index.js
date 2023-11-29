@@ -23,6 +23,12 @@ app.use(cors());
 app.use("/user", userRoutes);
 app.use("/", pageRoutes);
 
+io.on("connection", (socket) => {
+  socket.on("chat message", (msg) => {
+    io.emit("chat message", msg);
+  });
+});
+
 server.listen(port, () => console.log(`Server kører på port ${port}`));
 
 /*sqlHandler(`select * from matches`).then((result) => {
