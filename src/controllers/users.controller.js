@@ -17,6 +17,20 @@ const matchFunction = require("../models/match.js");
       }
     });
   });
+}; 
+// set cookie with user and session id
+const setCookies = (res, userId) => {
+  const sessionId = uuidv4();
+  const cookieOptions = {
+    httpOnly: false,
+    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
+    sameSite: 'lax',
+    path: '/',
+  };
+
+  res.cookie('userId', userId, cookieOptions);
+  res.cookie('sessionId', sessionId, cookieOptions);
+  res.status(200).send({ userId, sessionId });
 };
 
 exports.login = async (req, res) => {
@@ -35,19 +49,9 @@ exports.login = async (req, res) => {
       const hashedPasswordDB = result[0].password;
       // Compare the hashed passwords
       const passwordMatch = await bcrypt.compare(req.body.password, hashedPasswordDB);
-
       if (passwordMatch) {
-        const userId = result[0].userid;
-        const cookieOptions = {
-          httpOnly: false,
-          expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-          sameSite: 'lax',
-          path: '/',
-        };
-        const sessionId = uuidv4(); // Generate a unique session ID
-        res.cookie('userId', userId, cookieOptions);
-        res.cookie('sessionId', sessionId, cookieOptions);
-        return res.status(201).send(result);
+        const userId = result[0].userid; 
+        setCookies(res, userId);
       } else {
         console.log(req.body.username + " Incorrect password");
         return res.status(400).send("Incorrect password");
@@ -82,11 +86,14 @@ exports.signUp = async (req, res) => {
                  (SELECT seq + 1 FROM sqlite_sequence WHERE name = 'pictures'))`,
         [req.body.username, req.body.email,hashedPassword, req.body.age, req.body.number, req.body.preferredCity]
       );
-
-    // returner den nye bruger
-    return res.status(201).send(req.body);
-
-    // kaster en fejl hvis noget uventet går galt
+      const result = await sqlHandler(
+        `SELECT userid FROM users 
+        WHERE username = ?`,
+        [req.body.username]
+      );
+      const userId = result[0].userid;
+      setCookies(res, userId); 
+     // kaster en fejl hvis noget uventet går galt
   } catch (error) {
     console.error(error);
     return res
@@ -125,17 +132,14 @@ exports.findMatch = async (req, res) => {
   try {
     // finder matches
     const match = await matchFunction.matchFunction(req.params.userid);
-    console.log(match)
     if(match.length === 0){
       return res.status(400).send("No matches found. You can increase your chances by buying more products");
-    } else{
-      //matchstring: should follow lowest id.highest id
-      const matchid = req.params.userid < match[0].userid ? `${req.params.userid}.${ match[0].userid}` : `${ match[0].userid}.${req.params.userid}`;
+    }
+    sqlHandler(`INSERT INTO matches (user1_id user2_id) VALUES (?, ?)
+    `, [Number(match[0].userid), Number(req.params.id)]);
 
-        await sqlHandler(`INSERT INTO matches (match_id) VALUES (?);
-    `   , [matchid]);
-        // returner matches
-    return res.status(201).send(match);}
+    // returner matches
+    return res.status(201).send(match);
   } catch (error) {
     console.error(error);
     return res.status(500).send("An error occurred while trying to match");

@@ -1,9 +1,12 @@
 document.addEventListener("DOMContentLoaded", async function () {
   let user = {};
+  let cookie = document.cookie;
 
+  // login
   const loginButton = document.getElementById("loginButton");
   loginButton.addEventListener("click", loginUser);
   function loginUser() {
+    if (cookie) return alert("You are already logged in");
     let username = document.getElementById("username").value;
     let password = document.getElementById("password").value;
 
