@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function () {
   const userId = getCookieValue("userId");
+  console.log(userId);
   const response = await fetch(`/user/getUser/id=${userId}`);
   const data = await response.json();
   displayUserData(data); // Call the function to display the data

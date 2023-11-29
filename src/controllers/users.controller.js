@@ -128,42 +128,36 @@ exports.findMatch = async (req, res) => {
     console.log(match)
     if(match.length === 0){
       return res.status(400).send("No matches found. You can increase your chances by buying more products");
-    }
-    const check1 = await sqlHandler(`SELECT * FROM matches WHERE user1_id = ? AND user2_id = ?`, [Number(match[0].userid), Number(req.params.userid)]);
-    const check2 = await sqlHandler(`SELECT * FROM matches WHERE user2_id = ? AND user1_id = ?`, [Number(match[0].userid), Number(req.params.userid)]);
-    if(check1.length > 0 || check2.length > 0){
-      return res.status(400).send("You have already matched with all compatible users");
-    } else
-    await sqlHandler(`INSERT INTO matches (user1_id, user2_id) VALUES (?, ?);
-    `, [Number(match[0].userid), Number(req.params.userid)]);
+    } else{
+      //matchstring: should follow lowest id.highest id
+      const matchid = req.params.userid < match[0].userid ? `${req.params.userid}.${ match[0].userid}` : `${ match[0].userid}.${req.params.userid}`;
 
-    
-    // returner matches
-    return res.status(201).send(match);
+        await sqlHandler(`INSERT INTO matches (match_id) VALUES (?);
+    `   , [matchid]);
+        // returner matches
+    return res.status(201).send(match);}
   } catch (error) {
     console.error(error);
     return res.status(500).send("An error occurred while trying to match");
   }
 };
+
+// virker ikke
 exports.getMatches = async (req, res) => {
-  //check for user id
   try {
-    // finder matches
-    const match = await sqlHandler(`
-    SELECT u1.username AS username_1, u2.username AS username_2, user1_id, user2_id
-    FROM matches m
-    INNER JOIN users u1 ON m.user1_id = u1.userid
-    INNER JOIN users u2 ON m.user2_id = u2.userid
-    WHERE u1.userid = ? OR u2.userid = ?;
-    `, [req.params.userid,req.params.userid]);
-    // returner matches
-    if (match.length === 0) {
-      return res.status(400).send("No matches found");
-    } else {
-      return res.status(201).send(match);
+    // Check for user id
+    if (!req.params.userid) {
+      return res.status(400).send("Request lacks content");
     }
+    
+    let userId = req.params.userid;
+
+    // Find matches
+    sqlHandler(`select * from matches where`).then((result) => {    });
+
+    // Respond with matches
   } catch (error) {
     console.error(error);
-    return res.status(500).send("An error occurred while trying to get matches");
+    return res.status(500).send(`An error occurred while trying to get matches: ${error.message}`);
   }
 };
