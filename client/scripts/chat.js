@@ -1,26 +1,60 @@
 const socket = io();
+document.addEventListener("DOMContentLoaded", async function () {
+// DOM elements
+const seeMessages = document.querySelector("#seeMessage");
+const chatList = document.querySelector("#chatList");
+const message = document.querySelector("#input");
+const sendButton = document.querySelector("#button");
 
-// Der hvor beskederne bliver vist 
-const seeMessages = document.getElementById("seeMessage");
-// tekstinputfelt 
-const input = document.getElementById("input");
-// bruger 
+// Event listeners
 
+const cookie = document.cookie
+const userid = Number(cookie.split("userId=")[1])
+console.log({userid: userid, type: typeof(userid)})
 
-
-// denne skal laves om til at username bliver til den bruger som er logget ind 
-
-function sendChat() {
-  if (input.value) {
-    socket.emit("chat message", ": " + input.value);
-    input.value = "";
-  }
+const getMatches = async (userid) => {
+  const response = await fetch(`/user/getMatches/${userid}`,{
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((response) => response.json());
 }
 
-socket.on("chat message", (msg) => {
-  const item = document.createElement("li");
-  item.textContent = msg;
-  item.setAttribute("id", "item")
-  seeMessage.appendChild(item);
-  window.scrollTo(0, document.body.scrollHeight);
-})
+let usersOnline = [];
+
+socket.on("users", (users) => {
+  usersOnline = users;
+  console.log({connected: usersOnline});
+});
+socket.on("connect", () => {
+  socket.emit("joined", {socketid:socket.id, userid: userid});
+});
+
+sendButton.addEventListener("click", 
+  () => {
+    socket.emit("private message", message.value);
+    message.value = "";
+  }
+);
+
+socket.on("private message", (msg) => {
+  console.log(msg);
+  listMessages(msg);
+});
+
+const listMessages = (msg) => {
+    const li = document.createElement("li");
+    li.innerHTML = msg;
+    seeMessages.appendChild(li);
+}
+const listOnlineMatches = async () => {
+  const matches = await getMatches(userid);
+  console.log(matches);
+  //const li = document.createElement("li");
+  //li.innerHTML = msg;
+  //chatList.appendChild(li);
+}
+
+listOnlineMatches();
+});

@@ -22,4 +22,24 @@ app.use(cors());
 app.use("/user", userRoutes);
 app.use("/", pageRoutes);
 
-server.listen(port, () => console.log(`Server kører på port ${port}`));
+server.listen(port, () => console.log(`Server running on port ${port}`));
+
+//socket.io
+let connectedUsers = [];
+
+io.on('connection', (socket) => {
+  socket.on("joined", (data) => {
+    connectedUsers.push(data);
+    console.log(connectedUsers);
+    socket.emit("users", connectedUsers);
+  });
+  socket.on('private message', (msg) => {
+    io.to(socket.id).emit("private message", msg);
+    console.log('message: ' + msg);
+  });
+  socket.on('disconnecting', (reason) => {
+    console.log(socket.id + " disconnected because of " + reason);
+    //remove user from connectedUsers with socket.id
+    connectedUsers = connectedUsers.filter(user => user.socketid !== socket.id);
+  });
+});

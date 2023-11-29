@@ -1,4 +1,4 @@
- /*
+ 
 const sqlite = require("sqlite3").verbose();
 let sql 
 
@@ -47,8 +47,6 @@ sql = `
     );
 `;  
 db.run(sql);
-*/
-
 /*`
   CREATE TABLE matches (
     match_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -57,4 +55,4 @@ db.run(sql);
     CONSTRAINT different_users CHECK (user1_id <> user2_id),
     CONSTRAINT fk_user1 FOREIGN KEY (user1_id) REFERENCES users(user_id),
     CONSTRAINT fk_user2 FOREIGN KEY (user2_id) REFERENCES users(user_id)
-);` */
+);`*/
