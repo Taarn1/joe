@@ -4,14 +4,15 @@ const socket = io();
 const seeMessages = document.getElementById("seeMessage");
 // tekstinputfelt 
 const input = document.getElementById("input");
-// bruger, skal være den bruger som er logget ind 
-let username = document.cookie;
+// bruger 
 
-socket.emit("user joined", username);
+
+
+// denne skal laves om til at username bliver til den bruger som er logget ind 
 
 function sendChat() {
   if (input.value) {
-    socket.emit("chat message", username + ": " + input.value);
+    socket.emit("chat message", ": " + input.value);
     input.value = "";
   }
 }
@@ -22,9 +23,4 @@ socket.on("chat message", (msg) => {
   item.setAttribute("id", "item")
   seeMessage.appendChild(item);
   window.scrollTo(0, document.body.scrollHeight);
-});
-
-// Vi skal have lavet et array + en funktion med alle brugerens matches 
-
-// Lave en funktion som ved click laver et private room mellem bruger og match 
-
+})

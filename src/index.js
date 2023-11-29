@@ -22,14 +22,4 @@ app.use(cors());
 app.use("/user", userRoutes);
 app.use("/", pageRoutes);
 
-server.listen(port, () => {
-  console.log(`Server kører på port ${port}`);
-});
-
-io.on('connection', (socket) => {
-  socket.on('chat message', function (msg) {
-    console.log(msg)
-    const uidTo = msg.uidTo 
-    io.in(uidTo).emit('chat message', msg )
-    });
-  });
+server.listen(port, () => console.log(`Server kører på port ${port}`));
