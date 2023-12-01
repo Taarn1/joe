@@ -29,8 +29,9 @@ document.addEventListener("DOMContentLoaded", async function () {
   const userId = getCookieValue("userId");
   const response = await fetch(`/user/getUser/id=${userId}`);
   const data = await response.json();
-  displayUserData(data); // Call the function to display the data
-
+  if(data.length > 0) { 
+    displayUserData(data); // Call the function to display the data
+  }
   const loadProfile = async () => {
     // Check if the user is logged in
     if (!document.cookie) {
@@ -42,10 +43,10 @@ document.addEventListener("DOMContentLoaded", async function () {
       const response = await fetch(`/user/getUser/id=${userId}`);
     }
   };
-  loadProfile();
+  await loadProfile();
 
   // logout
-  const logoutButton = document.querySelector("#logoutButton");
+  const logoutButton = document.getElementById("logoutButton");
   logoutButton.addEventListener("click", () => {
     let cookie = document.cookie;
     if (!cookie) return alert("No need to logout when you haven't login");
