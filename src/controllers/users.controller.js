@@ -135,8 +135,12 @@ exports.findMatch = async (req, res) => {
     if(match.length === 0){
       return res.status(400).send("No matches found. You can increase your chances by buying more products");
     }
-    sqlHandler(`INSERT INTO matches (user1_id user2_id) VALUES (?, ?)
-    `, [Number(match[0].userid), Number(req.params.id)]);
+    if(req.params.id < match[0].userid){
+    sqlHandler(`INSERT INTO matches (user1 user2) VALUES (?, ?)
+    `, [Number(match[0].userid), Number(req.params.id)]);} else{
+      sqlHandler(`INSERT INTO matches (user1 user2) VALUES (?, ?)
+    `, [Number(req.params.id), Number(match[0].userid)]);
+    }
 
     // returner matches
     return res.status(201).send(match);
@@ -157,8 +161,11 @@ exports.getMatches = async (req, res) => {
     let userId = req.params.userid;
 
     // Find matches
-    sqlHandler(`select * from matches where`).then((result) => {    });
-
+    sqlHandler(`select * 
+    from matches
+    where user1 =${userId} or user2 = ${userId}`).then((result) => {
+    return res.status(200).send(result);
+    });
     // Respond with matches
   } catch (error) {
     console.error(error);

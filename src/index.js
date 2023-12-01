@@ -7,6 +7,7 @@ const socketIO = require('socket.io');
 const port = 3000;
 const app = express();
 const cors = require("cors");
+const { sqlHandler } = require("./models/sqlHandler");
 
 
 // socket.io server er i tvivl om jeg skal bruge express eller https
@@ -16,7 +17,6 @@ const io = socketIO(server);
 //import routes
 const userRoutes = require("./routes/users.routes");
 const pageRoutes = require("./routes/page.routes");
-const { sqlHandler } = require("./models/sqlHandler");
 
 //middleware
 app.use(cors());
@@ -30,9 +30,18 @@ server.listen(port, () => console.log(`Server kører på port ${port}`));
         const roomName = `match_${match.match_id}`;
       
         // Create a room with the match ID as the room name
-        io.on('connection', (socket) => {
-          socket.join(roomName);
-          console.log(`Socket ${socket.id} joined room ${roomName}`);
-        });
       });
-});*/
+    });*/
+
+    let matches
+    sqlHandler(`select * from matches`).then((result) => {
+        matches = result
+        console.log(matches)
+        io.on('connection', (socket) => {
+          matches.forEach(match => {
+            const roomName = match.match_id;
+            socket.on(roomName, (message) => console.log(message));
+            socket.join(roomName);
+          });
+        });
+    })
