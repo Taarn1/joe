@@ -27,6 +27,11 @@ io.on("connection", (socket) => {
   socket.on("chat message", (msg) => {
     io.emit("chat message", msg);
   });
+  /*socket.on("user", async function(name){
+    socket.username = name
+    io.socket.emit("", "sofie");
+    console.log(name)
+  })*/
 });
 
 server.listen(port, () => console.log(`Server kører på port ${port}`));
