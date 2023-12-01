@@ -1,5 +1,6 @@
 const express = require("express");
 const Router = express.Router();
+const path = require("path");
 
 //forside/login
 Router.get("/", (req, res) =>
