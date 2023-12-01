@@ -51,7 +51,7 @@ db.run(sql);
 
 /*`
   CREATE TABLE matches (
-    match_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    match_id NUMBER PRIMARY KEY AUTOINCREMENT,
     user1_id INTEGER NOT NULL,
     user2_id INTEGET NOT NULL,
     CONSTRAINT different_users CHECK (user1_id <> user2_id),

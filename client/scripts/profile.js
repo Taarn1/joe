@@ -49,14 +49,12 @@ document.addEventListener("DOMContentLoaded", async function () {
   logoutButton.addEventListener("click", () => {
     let cookie = document.cookie;
     if (!cookie) return alert("No need to logout when you haven't login");
+    // kommer ikke frem
     else {
-      console.log("Before Logout:", document.cookie);
       document.cookie =
         "userId=0; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
       document.cookie =
         "sessionId=0; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-      console.log("After Logout:", document.cookie);
-
       let cookie = document.cookie;
       if (cookie) return alert("logout failed");
       else {
