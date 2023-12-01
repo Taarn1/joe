@@ -29,8 +29,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   const userId = getCookieValue("userId");
   const response = await fetch(`/user/getUser/id=${userId}`);
   const data = await response.json();
-
-  console.log("Response Data:", data);
   displayUserData(data); // Call the function to display the data
 
   const loadProfile = async () => {
