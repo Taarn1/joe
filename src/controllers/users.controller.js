@@ -1,13 +1,13 @@
 const sqlite3 = require("sqlite3").verbose();
-const path = require ("path");
+const path = require("path");
 const bcrypt = require("bcrypt");
-const { v4: uuidv4 } = require('uuid');  
+const { v4: uuidv4 } = require("uuid");
 //write a function, usershandler that returns the result of "SELECT * FROM users"
 
-const {sqlHandler} = require("../models/sqlHandler.js");
-const matchFunction = require("../models/match.js"); 
- // hash password
- const hashPassword = async (password) => {
+const { sqlHandler } = require("../models/sqlHandler.js");
+const matchFunction = require("../models/match.js");
+// hash password
+const hashPassword = async (password) => {
   return new Promise((resolve, reject) => {
     bcrypt.hash(password, 3, (err, hash) => {
       if (err) {
@@ -17,19 +17,19 @@ const matchFunction = require("../models/match.js");
       }
     });
   });
-}; 
+};
 // set cookie with user and session id
 const setCookies = (res, userId) => {
   const sessionId = uuidv4();
   const cookieOptions = {
     httpOnly: false,
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-    sameSite: 'lax',
-    path: '/',
+    sameSite: "lax",
+    path: "/",
   };
 
-  res.cookie('userId', userId, cookieOptions);
-  res.cookie('sessionId', sessionId, cookieOptions);
+  res.cookie("userId", userId, cookieOptions);
+  res.cookie("sessionId", sessionId, cookieOptions);
   res.status(200).send({ userId, sessionId });
 };
 
@@ -48,9 +48,12 @@ exports.login = async (req, res) => {
     if (result.length > 0) {
       const hashedPasswordDB = result[0].password;
       // Compare the hashed passwords
-      const passwordMatch = await bcrypt.compare(req.body.password, hashedPasswordDB);
+      const passwordMatch = await bcrypt.compare(
+        req.body.password,
+        hashedPasswordDB
+      );
       if (passwordMatch) {
-        const userId = result[0].userid; 
+        const userId = result[0].userid;
         setCookies(res, userId);
       } else {
         console.log(req.body.username + " Incorrect password");
@@ -71,9 +74,11 @@ exports.signUp = async (req, res) => {
     return res.status(400).send("Request lacks content");
   }
   const hashedPassword = await hashPassword(req.body.password);
- //check om mail er i brug
-  let check = await sqlHandler(`SELECT userid, username, email, password FROM users WHERE email = ? OR username = ?` ,
-        [req.body.email, req.body.username]);
+  //check om mail er i brug
+  let check = await sqlHandler(
+    `SELECT userid, username, email, password FROM users WHERE email = ? OR username = ?`,
+    [req.body.email, req.body.username]
+  );
   // hvis check er længere end 0, findes e-mailen allerede
   if (Object.keys(check).length) {
     return res.status(400).send("E-mail or username already in use");
@@ -84,27 +89,34 @@ exports.signUp = async (req, res) => {
       `INSERT INTO users (username, email, password, age, number, cityid, picid)
          VALUES (?, ?, ?, ?, ?, (SELECT cityid FROM city WHERE cityname = ?),
                  (SELECT seq + 1 FROM sqlite_sequence WHERE name = 'pictures'))`,
-        [req.body.username, req.body.email,hashedPassword, req.body.age, req.body.number, req.body.preferredCity]
-      );
-      const result = await sqlHandler(
-        `SELECT userid FROM users 
+      [
+        req.body.username,
+        req.body.email,
+        hashedPassword,
+        req.body.age,
+        req.body.number,
+        req.body.preferredCity,
+      ]
+    );
+    const result = await sqlHandler(
+      `SELECT userid FROM users 
         WHERE username = ?`,
-        [req.body.username]
-      );
-      const userId = result[0].userid;
-      setCookies(res, userId); 
-     // kaster en fejl hvis noget uventet går galt
+      [req.body.username]
+    );
+    const userId = result[0].userid;
+    setCookies(res, userId);
+    // kaster en fejl hvis noget uventet går galt
   } catch (error) {
     console.error(error);
     return res
       .status(500)
       .send("An error occurred while trying to create the user");
   }
-};  
-// Hent bruger 
+};
+// Hent bruger
 exports.getUser = async (req, res) => {
   //check for user id
-  userId = req.params.id.split("=")[1]; 
+  userId = req.params.id.split("=")[1];
   if (!userId) {
     return res.status(400).send("Request lacks content");
   }
@@ -132,8 +144,12 @@ exports.findMatch = async (req, res) => {
   try {
     // finder matches
     const match = await matchFunction.matchFunction(req.params.userid);
-    if(match.length === 0){
-      return res.status(400).send("No matches found. You can increase your chances by buying more products");
+    if (match.length === 0) {
+      return res
+        .status(400)
+        .send(
+          "No matches found. You can increase your chances by buying more products"
+        );
     }
     if(req.params.id < match[0].userid){
     sqlHandler(`INSERT INTO matches (user1 user2) VALUES (?, ?)
@@ -157,7 +173,7 @@ exports.getMatches = async (req, res) => {
     if (!req.params.userid) {
       return res.status(400).send("Request lacks content");
     }
-    
+
     let userId = req.params.userid;
 
     // Find matches
@@ -169,6 +185,8 @@ exports.getMatches = async (req, res) => {
     // Respond with matches
   } catch (error) {
     console.error(error);
-    return res.status(500).send(`An error occurred while trying to get matches: ${error.message}`);
+    return res
+      .status(500)
+      .send(`An error occurred while trying to get matches: ${error.message}`);
   }
 };
