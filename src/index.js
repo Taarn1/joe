@@ -51,7 +51,9 @@ server.listen(port, () => console.log(`Server kører på port ${port}`));
         io.on('connection', (socket) => {
           matches.forEach(match => {
             const roomName = match.match_id;
-            socket.on(roomName, (message) => console.log(message));
+            socket.on(roomName, (message) => {
+              io.emit(roomName, message);
+              console.log({user: socket.id, sent:message})});
             socket.join(roomName);
           });
         });
