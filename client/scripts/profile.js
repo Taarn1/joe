@@ -45,6 +45,20 @@ document.addEventListener("DOMContentLoaded", async function () {
   };
   await loadProfile();
 
+  // match knap
+  const matchButton = document.getElementById("matchButton");
+  matchButton.addEventListener('click', async function () {
+    console.log(userId)
+  const matchUserID = await fetch(`/user/match/${userId}`);
+  console.log(matchUserID);
+  /*if (data.length < 0) {
+  alert("You got one or more matches")
+  return (window.location.href = "http://localhost:3000/chat");
+  } else {
+    return alert("No matches, buy a delicious sandwich or juice")
+  }*/
+  })
+
   // logout
   const logoutButton = document.getElementById("logoutButton");
   logoutButton.addEventListener("click", () => {

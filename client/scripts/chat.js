@@ -44,9 +44,14 @@ const match = fetch(`http://localhost:3000/user/getmatches/${userId}`)
     .then((response) => response.json())
     .then((result) => {
         //callback. koden kører når fetch er færdig
-        console.log(result);
         result.forEach(match => {
-            const matcheduser = match.user1 !== userId ? match.user2 : match.user1; // kig på dette
+            console.log(match);
+            if (userId == match.user1Id) {
+                matchedUser = match.user2;
+            }
+            else {
+                matchedUser = match.user1;
+            }
             const chatbutton = document.createElement("button");
             let chatroom = new Chatroom(match.match_id);
                 //det er her, man lytter på beskeder
@@ -62,7 +67,7 @@ const match = fetch(`http://localhost:3000/user/getmatches/${userId}`)
                 activeChatroom = chatroom.roomname;                             
                 
             });
-            chatbutton.innerHTML = "chat med " + matcheduser; // kig på dette
+            chatbutton.innerHTML = "Chat med " + matchedUser; // kig på dette
             chatlist.appendChild(chatbutton);
         });
     })
