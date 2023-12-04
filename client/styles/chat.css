@@ -58,7 +58,7 @@
   background-color: #f09bc1;
 }
 
-#item {
+.item {
   display: flex;
   border: #f09bc1;
   justify-content: flex-end;
