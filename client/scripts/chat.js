@@ -1,6 +1,10 @@
 const socket = io();
 document.addEventListener("DOMContentLoaded", async () => {
-// Der hvor beskederne bliver vist 
+//send to login if no cookie
+if(!document.cookie){
+    window.location.href = "/";
+}
+
 const seeMessages = document.getElementById("seeMessage");
 const sendButton = document.getElementById("button");
 const chatlist = document.getElementById("chatList");
@@ -12,11 +16,6 @@ const input = document.getElementById("input");
 const userIdCookie = document.cookie.split(";")
 const userId = userIdCookie.find((cookie) => cookie.includes("userId")).split("=")[1];
 
-//send to login if no cookie
-//ikke lavet endnu
-
-
-//ikke lavet endnu
 const clearChatWindow = () => {
     sendButton.onclick = () => {};
     while(seeMessages.firstChild){
@@ -31,7 +30,7 @@ sendButton.addEventListener("click", () => {
       chatroom.sendMessage(messageToSend);
       input.value = ''; // Nulstil inputfeltet efter at beskeden er sendt
     } else {
-      console.error('Ingen aktivt chatrum valgt.');
+      alert('Ingen chat valgt.');
       // Håndter fejlen her, hvis der ikke er valgt et aktivt chatrum
     }
   });
@@ -45,7 +44,6 @@ const match = fetch(`http://localhost:3000/user/getmatches/${userId}`)
     .then((result) => {
         //callback. koden kører når fetch er færdig
         result.forEach(match => {
-            console.log(match);
             if (userId == match.user1Id) {
                 matchedUser = match.user2;
             }
