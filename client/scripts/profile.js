@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   console.log(matchUserID);
   /*if (data.length < 0) {
   alert("You got one or more matches")
-  return (window.location.href = "http://localhost:3000/chat");
+  return (window.location.href = "/user/chat");
   } else {
     return alert("No matches, buy a delicious sandwich or juice")
   }*/

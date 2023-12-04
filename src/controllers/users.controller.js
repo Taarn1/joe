@@ -68,6 +68,7 @@ exports.login = async (req, res) => {
     return res.status(500).send("An error occurred during login");
   }
 };
+
 // opret bruger
 exports.signUp = async (req, res) => {
   if (!req.body.email || !req.body.password || !req.body.username) {
@@ -89,6 +90,7 @@ exports.signUp = async (req, res) => {
       `INSERT INTO users (username, email, password, age, number, cityid, picid)
          VALUES (?, ?, ?, ?, ?, (SELECT cityid FROM city WHERE cityname = ?),
                  (SELECT seq + 1 FROM sqlite_sequence WHERE name = 'pictures'))`,
+
       [
         req.body.username,
         req.body.email,
@@ -98,6 +100,7 @@ exports.signUp = async (req, res) => {
         req.body.preferredCity,
       ]
     );
+
     const result = await sqlHandler(
       `SELECT userid FROM users 
         WHERE username = ?`,
@@ -113,6 +116,28 @@ exports.signUp = async (req, res) => {
       .send("An error occurred while trying to create the user");
   }
 };
+
+// Example: Creating a new user and inserting random items
+// Insert random orders into the database  
+function generateRandomItem() {
+  const itemNames = ["Joes Green Mile", "Ginger shot", "Acai shake"];
+  return itemNames[Math.floor(Math.random() * itemNames.length)];
+}
+
+// Function to insert random items for a given user
+const insertRandomItems = async (userid, numItems) => {
+const insertStatement = await sqlHandler('INSERT INTO orders (userid, itemid, orderid) VALUES (userid, ?, ?)');
+  for (let i = 0; i < numItems; i++) {
+    const itemid = generateRandomItem();
+    const orderid = Math.random().toString(36).substring(7); // Generating a random order ID
+    insertStatement.run(userid, itemid, orderid);
+  }
+
+  insertStatement.finalize();
+}
+insertRandomItems(userid, Math.random());
+
+
 // Hent bruger
 exports.getUser = async (req, res) => {
   //check for user id
