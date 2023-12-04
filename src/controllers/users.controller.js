@@ -177,9 +177,13 @@ exports.getMatches = async (req, res) => {
     let userId = req.params.userid;
 
     // Find matches
-    sqlHandler(`select * 
+    sqlHandler(`select 
+    users1.username as user1, users2.username as user2 
     from matches
-    where user1 =${userId} or user2 = ${userId}`).then((result) => {
+    JOIN users users1 ON matches.user1 = users1.userId
+    JOIN users users2 ON matches.user2 = users2.userId
+    where user1 =${userId} or user2 = ${userId}`)
+    .then((result) => {
     return res.status(200).send(result);
     });
     // Respond with matches
