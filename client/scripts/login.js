@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     user.username = username;
     user.password = password;
-    fetch("http://localhost:3000/user/login", {
+    fetch("/user/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       .then((response) => {
         if (response.ok) {
           // Redirect to profile page
-          window.location.href = "http://localhost:3000/profile";
+          window.location.href = "/profile";
         } else {
           // Handle login error
           console.error("Login failed");

@@ -24,25 +24,22 @@ const clearChatWindow = () => {
 }
 
 sendButton.addEventListener("click", () => {
-    const messageToSend = input.value; // Få indholdet fra inputfeltet
+    const messageToSend = input.value;
     if (activeChatroom) {
       const chatroom = new Chatroom(activeChatroom);
       chatroom.sendMessage(messageToSend);
-      input.value = ''; // Nulstil inputfeltet efter at beskeden er sendt
+      input.value = ''; 
     } else {
       alert('Ingen chat valgt.');
-      // Håndter fejlen her, hvis der ikke er valgt et aktivt chatrum
     }
   });
 
-//skal bruges til at lytte til det aktive chatroom
 let activeChatroom = null;
 
 
-const match = fetch(`http://localhost:3000/user/getmatches/${userId}`)
+const match = fetch(`/user/getmatches/${userId}`)
     .then((response) => response.json())
     .then((result) => {
-        //callback. koden kører når fetch er færdig
         result.forEach(match => {
             if (userId == match.user1Id) {
                 matchedUser = match.user2;
@@ -56,9 +53,13 @@ const match = fetch(`http://localhost:3000/user/getmatches/${userId}`)
             socket.on(chatroom.roomname, (message) => {
                 if(activeChatroom === chatroom.roomname){
                 const messageElement = document.createElement("li");
+                messageElement.class = "item"
                 messageElement.innerHTML = message;
                 seeMessages.appendChild(messageElement);
-            }});
+            } else { //skal testes
+                alert("Du har en ny besked fra " + matchedUser);
+            }
+        });
             chatbutton.addEventListener("click", () => {
                 clearChatWindow()
                 console.log("match_id" + match.match_id);

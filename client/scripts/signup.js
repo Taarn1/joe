@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.log(user);
     //fetch post to localhost:3000/user/signup
     //send user object as JSON in body of request
-    fetch("http://localhost:3000/user/signup", {
+    fetch("/user/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -40,6 +40,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       body: JSON.stringify(user),
     });
     // redirect to profile page
-    window.location.href = "http://localhost:3000/profile";
+    window.location.href = "/profile";
   }
 });
