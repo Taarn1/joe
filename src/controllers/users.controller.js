@@ -116,7 +116,7 @@ exports.signUp = async (req, res) => {
       .send("An error occurred while trying to create the user");
   }
 };
-
+/*
 // Example: Creating a new user and inserting random items
 // Insert random orders into the database  
 function generateRandomItem() {
@@ -135,7 +135,7 @@ const insertStatement = await sqlHandler('INSERT INTO orders (userid, itemid, or
 
   insertStatement.finalize();
 }
-insertRandomItems(userid, Math.random());
+insertRandomItems(userid, Math.random());*/
 
 
 // Hent bruger

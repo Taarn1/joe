@@ -9,9 +9,15 @@
 
 #leftSide {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   background-color: #f7c1d9;
   flex-grow: 1;
+}
+
+#voucher{
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 
 #chatList {
@@ -31,6 +37,8 @@
   display: flex;
   flex-grow: 1;
   flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
 }
 
 #sendMessage {
@@ -60,8 +68,22 @@
 
 .item {
   display: flex;
-  border: #f09bc1;
-  justify-content: flex-end;
-  margin-right: 30px;
-  margin-top: 10px;
+  border-radius: 10px;
+  border: 2px solid #f09bc1;
+  justify-content: flex-start;
+  width: 50%;
+  margin-bottom: 10px;
+}
+
+#chatButton {
+  border-radius: 10px;
+  border: 2px solid black;
+  padding: 10px;
+  margin: 5px;
+  background-color: white;
+  font-weight: bold;
+}
+
+#chatButton:hover {
+  background-color:  #f09bc1;
 }

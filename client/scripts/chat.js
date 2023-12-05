@@ -48,12 +48,13 @@ const match = fetch(`/user/getmatches/${userId}`)
                 matchedUser = match.user1;
             }
             const chatbutton = document.createElement("button");
+            chatbutton.setAttribute("id", "chatButton");
             let chatroom = new Chatroom(match.match_id);
                 //det er her, man lytter på beskeder
             socket.on(chatroom.roomname, (message) => {
                 if(activeChatroom === chatroom.roomname){
                 const messageElement = document.createElement("li");
-                messageElement.class = "item"
+                messageElement.setAttribute("class", "item");
                 messageElement.innerHTML = message;
                 seeMessages.appendChild(messageElement);
             } else { //skal testes
