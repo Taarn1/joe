@@ -2,7 +2,6 @@
 #chatPage {
   display: flex;
   flex-direction: row;
-
   height: 100%;
   margin-top: 60px;
 }
@@ -10,6 +9,7 @@
 #leftSide {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   background-color: #f7c1d9;
   flex-grow: 1;
 }
@@ -18,6 +18,77 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  height: 100%;
+  margin-bottom: 20px;
+}
+
+#voucherText {
+  display: flex;
+  height: 100px;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  background-color: #f09bc1;
+}
+
+#voucherText {
+-webkit-animation:rainbow 1s infinite;
+-ms-animation:rainbow 1s infinite;
+-o-animation:rainbow 1s infinite;
+animation:rainbow 1s infinite;
+}
+@-webkit-keyframes rainbow {
+0% {color: #ff0000;}
+10% {color: #ff8000;}
+20% {color: #ffff00;}
+30% {color: #80ff00;}
+40% {color: #00ff00;}
+50% {color: #00ff80;}
+60% {color: #00ffff;}
+70% {color: #0080ff;}
+80% {color: #0000ff;}
+90% {color: #8000ff;}
+100% {color: #ff0080;}
+}
+@-ms-keyframes rainbow {
+0% {color: #ff0000;}
+10% {color: #ff8000;}
+20% {color: #ffff00;}
+30% {color: #80ff00;}
+40% {color: #00ff00;}
+50% {color: #00ff80;}
+60% {color: #00ffff;}
+70% {color: #0080ff;}
+80% {color: #0000ff;}
+90% {color: #8000ff;}
+100% {color: #ff0080;}
+}
+@-o-keyframes rainbow {
+0% {color: #ff0000;}
+10% {color: #ff8000;}
+20% {color: #ffff00;}
+30% {color: #80ff00;}
+40% {color: #00ff00;}
+50% {color: #00ff80;}
+60% {color: #00ffff;}
+70% {color: #0080ff;}
+80% {color: #0000ff;}
+90% {color: #8000ff;}
+100% {color: #ff0080;}
+}
+@keyframes rainbow {
+0% {color: #ff0000;}
+10% {color: #ff8000;}
+20% {color: #ffff00;}
+30% {color: #80ff00;}
+40% {color: #00ff00;}
+50% {color: #00ff80;}
+60% {color: #00ffff;}
+70% {color: #0080ff;}
+80% {color: #0000ff;}
+90% {color: #8000ff;}
+100% {color: #ff0080;}
 }
 
 #chatList {
@@ -28,7 +99,6 @@
 
 #rightSide {
   display: flex;
-  margin-bottom: 60px;
   flex-grow: 3;
   flex-direction: column;
 }
