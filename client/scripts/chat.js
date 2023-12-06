@@ -55,6 +55,8 @@ const match = fetch(`/user/getmatches/${userId}`)
             }
           
             const chatbutton = document.createElement("button");
+            chatbutton.setAttribute("id", "chatButton");
+
           
             socket.on(`receivedMessage_${chatroom.roomname}`, (message) => {
               console.log({ user: socket.id, received: message });
