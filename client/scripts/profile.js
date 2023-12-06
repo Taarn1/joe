@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (!userId) {
     window.location.href = "/";
   }
-  const authenticate = await fetch(`/user/auth`).then((response) =>window.location.href = "/").catch((error) => console.log(error));
   const response = await fetch(`/user/getUser/id=${userId}`);
   const data = await response.json();
   if(data.length > 0) { 
