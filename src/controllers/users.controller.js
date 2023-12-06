@@ -5,6 +5,7 @@ const { v4: uuidv4 } = require("uuid");
 const { sqlHandler } = require("../models/sqlHandler.js");
 const matchFunction = require("../models/match.js");
 
+
 // hash password
 const hashPassword = async (password) => {
   return new Promise((resolve, reject) => {
@@ -133,7 +134,7 @@ exports.signUp = async (req, res) => {
 // Hent bruger
 exports.getUser = async (req, res) => {
   //check for user id
-  userId = req.params.id.split("=")[1];
+  const userId = req.params.id;
   if (!userId) {
     return res.status(400).send("Request lacks content");
   }
@@ -212,8 +213,12 @@ exports.getMatches = async (req, res) => {
   }
 };
 
-exports.authenticate = () => {
-  return (req, res, next) => {
+exports.authenticate = async (req, res) => {
+  console.log(req.cookies);
+  if(!req.cookies) {
+    return res.status(200).send("No cookies");
+  }
+    console.log(req.cookies);
     const userId = req.cookies.userId;
     const sessionId = req.cookies.sessionId;
 
@@ -222,6 +227,7 @@ exports.authenticate = () => {
       [userId, sessionId]
     )
       .then((result) => {
+        console.log(result);
         if (result.length > 0) {
           return res.status(200).send("Authenticated");
         } else {
@@ -234,9 +240,6 @@ exports.authenticate = () => {
         console.error(err);
         return res.status(500).send("An error occurred during authentication");
       });
-  };
-
-
 };
 
 exports.logout = (req, res) => {
