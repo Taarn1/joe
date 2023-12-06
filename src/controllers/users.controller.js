@@ -2,10 +2,9 @@ const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
-//write a function, usershandler that returns the result of "SELECT * FROM users"
-
 const { sqlHandler } = require("../models/sqlHandler.js");
 const matchFunction = require("../models/match.js");
+
 // hash password
 const hashPassword = async (password) => {
   return new Promise((resolve, reject) => {
@@ -18,9 +17,11 @@ const hashPassword = async (password) => {
     });
   });
 };
+
 // set cookie with user and session id
 const setCookies = (res, userId) => {
   const sessionId = uuidv4();
+  sqlHandler(`INSERT INTO sessions (userid, sessionid) VALUES (?, ?)`, [userId, sessionId]);
   const cookieOptions = {
     httpOnly: false,
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
@@ -164,13 +165,13 @@ exports.findMatch = async (req, res) => {
       return res
         .status(400)
         .send(
-          "No matches found. You can increase your chances by buying more products"
+          "No new matches found. You can increase your chances by buying more products"
         );
     }
     if(req.params.id < match[0].userid){
-    sqlHandler(`INSERT INTO matches (user1 user2) VALUES (?, ?)
+    sqlHandler(`INSERT INTO if not exist matches (user1 user2) VALUES (?, ?)
     `, [Number(match[0].userid), Number(req.params.id)]);} else{
-      sqlHandler(`INSERT INTO matches (user1 user2) VALUES (?, ?)
+      sqlHandler(`INSERT INTO if not exist matches (user1 user2) VALUES (?, ?)
     `, [Number(req.params.id), Number(match[0].userid)]);
     }
 
@@ -210,3 +211,49 @@ exports.getMatches = async (req, res) => {
       .send(`An error occurred while trying to get matches: ${error.message}`);
   }
 };
+
+exports.authenticate = () => {
+  return (req, res, next) => {
+    const userId = req.cookies.userId;
+    const sessionId = req.cookies.sessionId;
+
+    sqlHandler(
+      `SELECT userid, sessionid FROM sessions WHERE userid = ? AND sessionid = ?`,
+      [userId, sessionId]
+    )
+      .then((result) => {
+        if (result.length > 0) {
+          return res.status(200).send("Authenticated");
+        } else {
+          res.clearCookie("userId");
+          res.clearCookie("sessionId");
+          return res.status(401).send("Unauthorized");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        return res.status(500).send("An error occurred during authentication");
+      });
+  };
+
+
+};
+
+exports.logout = (req, res) => {
+  const userId = req.cookies.userId;
+  const sessionId = req.cookies.sessionId;
+
+  sqlHandler(`DELETE FROM sessions WHERE userid = ? AND sessionid = ?`, [
+    userId,
+    sessionId,
+  ])
+    .then((result) => {
+      res.clearCookie("userId");
+      res.clearCookie("sessionId");
+      return res.status(200).send("Logged out");
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.status(500).send("An error occurred during logout");
+    });
+}

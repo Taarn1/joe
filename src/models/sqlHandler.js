@@ -43,4 +43,5 @@ const sqlHandler = (sql, params) => {
         foreign key (user2) references users(user_id)
     )`)*/
     //sqlHandler(`insert into matches (user1, user2) values (1, 2),(1, 3), (15,18)`)
+    //sqlHandler("create table sessions (userid integer, sessionid text)")
 module.exports = {sqlHandler}

@@ -27,7 +27,11 @@ sendButton.addEventListener("click", () => {
     const messageToSend = input.value;
     if (activeChatroom) {
       const chatroom = new Chatroom(activeChatroom);
-      chatroom.sendMessage(messageToSend);
+      chatroom.sendMessage(activeChatroom, messageToSend);
+      const messageElement = document.createElement("li");
+      messageElement.classList.add("sent")
+      messageElement.innerHTML = messageToSend;
+      seeMessages.appendChild(messageElement);
       input.value = ''; 
     } else {
       alert('Ingen chat valgt.');
@@ -41,34 +45,38 @@ const match = fetch(`/user/getmatches/${userId}`)
     .then((response) => response.json())
     .then((result) => {
         result.forEach(match => {
+            const chatroom = new Chatroom(match.match_id);
+            let matchedUser;
+          
             if (userId == match.user1Id) {
-                matchedUser = match.user2;
+              matchedUser = match.user2;
+            } else {
+              matchedUser = match.user1;
             }
-            else {
-                matchedUser = match.user1;
-            }
+          
             const chatbutton = document.createElement("button");
-            let chatroom = new Chatroom(match.match_id);
-                //det er her, man lytter på beskeder
-            socket.on(chatroom.roomname, (message) => {
-                if(activeChatroom === chatroom.roomname){
-                const messageElement = document.createElement("li");
-                messageElement.class = "item"
+          
+            socket.on(`receivedMessage_${chatroom.roomname}`, (message) => {
+              console.log({ user: socket.id, received: message });
+              if (activeChatroom === chatroom.roomname) {
+                const messageElement = document.createElement('li');
+                messageElement.classList.add('received');
                 messageElement.innerHTML = message;
                 seeMessages.appendChild(messageElement);
-            } else { //skal testes
-                alert("Du har en ny besked fra " + matchedUser);
-            }
-        });
-            chatbutton.addEventListener("click", () => {
-                clearChatWindow()
-                console.log("match_id" + match.match_id);
-                activeChatroom = chatroom.roomname;                             
-                
+              } else {
+                alert('Du har en ny besked');
+              }
             });
-            chatbutton.innerHTML = "Chat med " + matchedUser; // kig på dette
+          
+            chatbutton.addEventListener("click", () => {
+              clearChatWindow();
+              console.log("match_id" + match.match_id);
+              activeChatroom = chatroom.roomname;                             
+            });
+          
+            chatbutton.innerHTML = "Chat med " + matchedUser;
             chatlist.appendChild(chatbutton);
-        });
+          });
     })
     .catch((err) => {
         console.error(err);
@@ -78,9 +86,9 @@ class Chatroom {
     constructor(matchid) {
         this.roomname = matchid;
     }
-    sendMessage(message) {
+    sendMessage(activeChatroom, messageToSend) {
         //måske kan vi remove eventlisteneren her
-        socket.emit(this.roomname, message);
+        socket.emit(`sendMessage_${activeChatroom}`, messageToSend); // Sender beskeden til det specifikke rum på serveren
     }
 }
 

@@ -27,6 +27,10 @@ function displayUserData(data) {
 
 document.addEventListener("DOMContentLoaded", async function () {
   const userId = getCookieValue("userId");
+  if (!userId) {
+    window.location.href = "/";
+  }
+  const authenticate = await fetch(`/user/auth`).then((response) =>window.location.href = "/").catch((error) => console.log(error));
   const response = await fetch(`/user/getUser/id=${userId}`);
   const data = await response.json();
   if(data.length > 0) { 
@@ -61,21 +65,12 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   // logout
   const logoutButton = document.getElementById("logoutButton");
-  logoutButton.addEventListener("click", () => {
-    let cookie = document.cookie;
-    if (!cookie) return alert("No need to logout when you haven't login");
-    // kommer ikke frem
-    else {
-      document.cookie =
-        "userId=0; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-      document.cookie =
-        "sessionId=0; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-      let cookie = document.cookie;
-      if (cookie) return alert("logout failed");
-      else {
-        alert("logout succeed");
-        return (window.location.href = "/");
-      }
-    }
+  logoutButton.addEventListener("click", async() => {
+      await fetch(`/user/logout`)
+      .then((response) => response.json())
+      .then(() => {
+        alert("You are now logged out");
+        window.location.href = "/";
+      }).catch((error) => console.log(error));
   });
 });

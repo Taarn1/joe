@@ -23,26 +23,7 @@ app.use(cors());
 app.use("/user", userRoutes);
 app.use("/", pageRoutes);
 
-io.on("connection", (socket) => {
-  socket.on("chat message", (msg) => {
-    io.emit("chat message", msg);
-  });
-  /*socket.on("user", async function(name){
-    socket.username = name
-    io.socket.emit("", "sofie");
-    console.log(name)
-  })*/
-});
-
 server.listen(port, () => console.log(`Server kører på port ${port}`));
-
-/*sqlHandler(`select * from matches`).then((result) => {
-    result.forEach(match => {
-        const roomName = `match_${match.match_id}`;
-      
-        // Create a room with the match ID as the room name
-      });
-    });*/
 
     let matches
     sqlHandler(`select * from matches`).then((result) => {
@@ -51,10 +32,15 @@ server.listen(port, () => console.log(`Server kører på port ${port}`));
         io.on('connection', (socket) => {
           matches.forEach(match => {
             const roomName = match.match_id;
-            socket.on(roomName, (message) => {
-              io.emit(roomName, message);
-              console.log({user: socket.id, sent:message})});
-            socket.join(roomName);
+            
+            socket.join(roomName); // Tilslut socket til det specifikke rum
+            
+            // Modtagelse af besked fra klienten for et bestemt rum
+            socket.on(`sendMessage_${roomName}`, (message) => {  
+              socket.to(roomName).emit(`receivedMessage_${roomName}`, message); // Sender beskeden til alle i rummet
+              console.log({ user: socket.id, sent: message });
+            });
           });
         });
+        
     })
