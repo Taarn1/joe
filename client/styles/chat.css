@@ -2,7 +2,7 @@
 #chatPage {
   display: flex;
   flex-direction: row;
-  height: 100%;
+  height: 725px;
   margin-top: 60px;
 }
 
@@ -30,6 +30,8 @@
   align-items: center;
   border: 2px solid black;
   background-color: #f09bc1;
+  padding: 10px;
+  text-align: center;
 }
 
 #voucherText {
@@ -94,7 +96,7 @@ animation:rainbow 1s infinite;
 #chatList {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  flex-grow: 1;
 }
 
 #rightSide {
@@ -107,7 +109,6 @@ animation:rainbow 1s infinite;
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  align-items: flex-start;
   justify-content: flex-end;
 }
 
@@ -140,9 +141,21 @@ animation:rainbow 1s infinite;
   display: flex;
   border-radius: 10px;
   border: 2px solid #f09bc1;
-  justify-content: flex-start;
   width: 50%;
   margin-bottom: 10px;
+  padding: 5px;
+}
+
+.received {
+  display: flex;
+  align-self: flex-start;
+  margin-left: 10px;
+} 
+
+.sent {
+  display: flex;
+  align-self: flex-end;
+  margin-right: 10px;
 }
 
 #chatButton {

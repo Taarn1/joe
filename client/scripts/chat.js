@@ -30,6 +30,7 @@ sendButton.addEventListener("click", () => {
       chatroom.sendMessage(activeChatroom, messageToSend);
       const messageElement = document.createElement("li");
       messageElement.classList.add("sent")
+      messageElement.classList.add("item");
       messageElement.innerHTML = messageToSend;
       seeMessages.appendChild(messageElement);
       input.value = ''; 
@@ -63,6 +64,7 @@ const match = fetch(`/user/getmatches/${userId}`)
               if (activeChatroom === chatroom.roomname) {
                 const messageElement = document.createElement('li');
                 messageElement.classList.add('received');
+                messageElement.classList.add("item");
                 messageElement.innerHTML = message;
                 seeMessages.appendChild(messageElement);
               } else {
