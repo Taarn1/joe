@@ -87,18 +87,17 @@ exports.signUp = async (req, res) => {
   try {
     // opretter en ny bruger i databasen
     await sqlHandler(
-      `INSERT INTO users (username, email, password, age, number, cityid, picid)
-         VALUES (?, ?, ?, ?, ?, (SELECT cityid FROM city WHERE cityname = ?),
-                 (SELECT seq + 1 FROM sqlite_sequence WHERE name = 'pictures'))`,
-      [
-        req.body.username,
-        req.body.email,
-        hashedPassword,
-        req.body.age,
-        req.body.number,
-        req.body.preferredCity,
-      ]
-    );
+      `INSERT INTO users (username, email, password, age, number, cityid)
+      VALUES (?, ?, ?, ?, ?, (SELECT cityid FROM city WHERE cityname = ?))`,
+     [
+       req.body.username,
+       req.body.email,
+       hashedPassword,
+       req.body.age,
+       req.body.number,
+       req.body.preferredCity,
+     ]
+   );
     const result = await sqlHandler(
       `SELECT userid FROM users 
         WHERE username = ?`, 
@@ -139,7 +138,7 @@ exports.getUser = async (req, res) => {
   try {
     // finder bruger
     const user = await sqlHandler(
-      `SELECT users.userid, users.username, users.email, users.age, users.number, city.cityname, users.picid
+      `SELECT users.userid, users.username, users.email, users.age, users.number, city.cityname
       FROM users
       INNER JOIN city ON users.cityid = city.cityid
       WHERE users.userid = ?`,
@@ -153,10 +152,8 @@ exports.getUser = async (req, res) => {
     return res.status(500).send("An error occurred while trying to get user");
   }
 };
-// match
+// match bruger 
 exports.findMatch = async (req, res) => {
-  //check for user id
-
   try {
     // finder matches
     const match = await matchFunction.matchFunction(req.params.userid);
@@ -167,11 +164,25 @@ exports.findMatch = async (req, res) => {
           "No matches found. You can increase your chances by buying more products"
         );
     }
-    if(req.params.id < match[0].userid){
-    sqlHandler(`INSERT INTO matches (user1 user2) VALUES (?, ?)
-    `, [Number(match[0].userid), Number(req.params.id)]);} else{
-      sqlHandler(`INSERT INTO matches (user1 user2) VALUES (?, ?)
-    `, [Number(req.params.id), Number(match[0].userid)]);
+
+    // Insert matches into the database and handle duplicates
+    for (const matchItem of match) {
+      const user1 = Number(req.params.userid);
+      const user2 = Number(matchItem.userid);
+
+      // Check if the match already exists
+      const existingMatch = await sqlHandler(
+        `SELECT * FROM matches WHERE (user1 = ? AND user2 = ?) OR (user1 = ? AND user2 = ?)`,
+        [user1, user2, user2, user1]
+      );
+
+      if (existingMatch.length === 0) {
+        // If the match doesn't exist, insert it into the database
+        sqlHandler(
+          `INSERT INTO matches (user1, user2) VALUES (?, ?)`,
+          [user1, user2]
+        );
+      }
     }
 
     // returner matches
