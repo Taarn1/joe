@@ -15,13 +15,15 @@ router.post("/signup", jsonParser, (req, res) =>
 
 router.get("/getUser/:id", (req, res) => usersController.getUser(req, res));
 
-router.get("/getUser", (req, res) => usersController.getUser(req, res));
-
 //match
 router.get("/match/:userid", (req, res) => usersController.findMatch(req, res));
 
 router.get("/getMatches/:userid", (req, res) =>
   usersController.getMatches(req, res)
 );
+
+router.get("/authenticate", (req, res) => usersController.authenticate(req, res));
+
+router.delete("/logout", (req, res) => usersController.logout(req, res));
 
 module.exports = router;
