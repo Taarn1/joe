@@ -7,8 +7,6 @@ body {
 }
 
 .main {
-  /*display: flex;
-  flex-direction: column;*/
   width: 100%;
 }
 
@@ -18,15 +16,12 @@ body {
   height: 60px;
   width: 100%;
   position: fixed;
-  z-index: 1;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .leftSideHeader {
   display: flex;
-  flex-direction: row;
   width: 50%;
-  justify-content: left;
 }
 
 .rightSideHeader {
@@ -36,7 +31,6 @@ body {
 }
 
 img {
-  display: block;
   margin: 1%;
 }
 
@@ -115,4 +109,3 @@ input,
   border: 2px solid #f7c1d9;
   padding: 5px;
 }
-
