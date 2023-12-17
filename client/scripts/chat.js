@@ -1,9 +1,15 @@
 const socket = io();
 document.addEventListener("DOMContentLoaded", async () => {
-//send to login if no cookie
-if(!document.cookie){
+  if (!document.cookie) window.location.href = "/";
+//authenticates the user
+await fetch(`/user/authenticate`).then((response) => {
+  if (response.status === 401) {
+    alert("Fejl i autentifikation, du er blevet logget ud");
+    document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "sessionId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     window.location.href = "/";
-}
+  }
+}); 
 
 const seeMessages = document.getElementById("seeMessage");
 const sendButton = document.getElementById("button");

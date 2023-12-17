@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", async function () {
   let user = {};
   let cookie = document.cookie;
+  
+  if (cookie) window.location.href = "/profile";
+  
 
   // login
   const loginButton = document.getElementById("loginButton");

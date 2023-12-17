@@ -211,6 +211,7 @@ exports.getMatches = async (req, res) => {
 };
 
 exports.authenticate = async (req, res) => {
+  console.log("hejsa")
   console.log(req.cookies);
   if(!req.cookies) {
     return res.status(200).send("No cookies");
@@ -237,23 +238,4 @@ exports.authenticate = async (req, res) => {
         console.error(err);
         return res.status(500).send("An error occurred during authentication");
       });
-};
-
-exports.logout = (req, res) => {
-  const userId = req.cookies.userId;
-  const sessionId = req.cookies.sessionId;
-
-  sqlHandler(`DELETE FROM sessions WHERE userid = ? AND sessionid = ?`, [
-    userId,
-    sessionId,
-  ])
-    .then((result) => {
-      res.clearCookie("userId");
-      res.clearCookie("sessionId");
-      return res.status(200).send("Logged out");
-    })
-    .catch((err) => {
-      console.error(err);
-      return res.status(500).send("An error occurred during logout");
-    });
 }

@@ -24,6 +24,4 @@ router.get("/getMatches/:userid", (req, res) =>
 
 router.get("/authenticate", (req, res) => usersController.authenticate(req, res));
 
-router.delete("/logout", (req, res) => usersController.logout(req, res));
-
 module.exports = router;

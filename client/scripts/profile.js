@@ -30,24 +30,16 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (!userId) {
     window.location.href = "/";
   }
-  const response = await fetch(`/user/getUser/id=${userId}`);
+   await fetch(`/user/authenticate`).then((response) => console.log(response));
+    //delete cookies due to them being invalid
+    //document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    //document.cookie = "sessionId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  
+  const response = await fetch(`/user/getUser/${userId}`);
   const data = await response.json();
   if(data.length > 0) { 
     displayUserData(data); // Call the function to display the data
   }
-  const loadProfile = async () => {
-    // Check if the user is logged in
-    if (!document.cookie) {
-      //window.location.href = "/";
-    } else if (document.cookie) {
-      // Get user id from cookie
-      const userId = document.cookie.split("=")[1];
-      // Get user info from database
-      const response = await fetch(`/user/getUser/id=${userId}`);
-    }
-  };
-  await loadProfile();
-
   // match knap
   const matchButton = document.getElementById("matchButton");
   matchButton.addEventListener('click', async function () {
@@ -65,11 +57,11 @@ document.addEventListener("DOMContentLoaded", async function () {
   // logout
   const logoutButton = document.getElementById("logoutButton");
   logoutButton.addEventListener("click", async() => {
-      await fetch(`/user/logout`)
-      .then((response) => response.json())
-      .then(() => {
-        alert("You are now logged out");
-        window.location.href = "/";
-      }).catch((error) => console.log(error));
+    //delete cookie
+    document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie = "sessionId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    alert("You are now logged out");
+    window.location.href = "/";
+
   });
 });
