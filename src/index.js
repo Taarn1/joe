@@ -10,8 +10,6 @@ const app = express();
 const cors = require("cors");
 const { sqlHandler } = require("./models/sqlHandler");
 
-
-// socket.io server er i tvivl om jeg skal bruge express eller https
 const server = http.createServer(app);
 const io = socketIO(server);
 
@@ -25,7 +23,7 @@ app.use(cookieParser());
 app.use("/user", userRoutes);
 app.use("/", pageRoutes);
 
-server.listen(port, () => console.log(`Server kører på port ${port}`));
+server.listen(port, () => console.log(`Server running on port ${port}`));
 
     let matches
     sqlHandler(`select * from matches`).then((result) => {

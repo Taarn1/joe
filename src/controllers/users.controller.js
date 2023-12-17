@@ -166,14 +166,15 @@ exports.findMatch = async (req, res) => {
         .send(
           "No new matches found. You can increase your chances by buying more products"
         );
-    }
-    if(req.params.id < match[0].userid){
-    sqlHandler(`INSERT or IGNORE INTO matches (user1, user2) VALUES (?, ?)
-    `, [Number(match[0].userid), Number(req.params.id)]);} else{
+    }let i = 0;
+    match.forEach(() => {
+    if(req.params.id < match[i].userid){
+    sqlHandler(`INSERT or IGNORE INTO matches (user1 user2) VALUES (?, ?)
+    `, [Number(match[i].userid), Number(req.params.userid)]);} else{
       sqlHandler(`INSERT or IGNORE INTO matches (user1, user2) VALUES (?, ?)
-    `, [Number(req.params.id), Number(match[0].userid)]);
-    }
-
+    `, [Number(req.params.userid), Number(match[i].userid)]);
+    }i++;
+  });
     // returner matches
     return res.status(201).send(match);
   } catch (error) {
