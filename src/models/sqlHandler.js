@@ -34,6 +34,7 @@ const sqlHandler = (sql, params) => {
   };
 
     //sqlHandler(`drop table matches`)
+    
     /*sqlHandler(`
     create table if not exists matches (
         match_id integer primary key autoincrement,
@@ -41,7 +42,11 @@ const sqlHandler = (sql, params) => {
         user2 integer,
         foreign key (user1) references users(user_id),
         foreign key (user2) references users(user_id)
+        UNIQUE(user1, user2)
+
     )`)*/
-    //sqlHandler(`insert into matches (user1, user2) values (1, 2),(1, 3), (15,18)`)
+    //sqlHandler(`insert into orders (userid, itemid) values (7, 1), (6,1)`)
+    //sqlHandler(`delete from orders where orderid >5`)
     //sqlHandler("create table sessions (userid integer, sessionid text)")
+    //sqlHandler("select * from matches where user1 = 4 or user2 = 4").then((result) => console.log(result))
 module.exports = {sqlHandler}

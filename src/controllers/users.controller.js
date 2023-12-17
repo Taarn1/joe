@@ -154,6 +154,7 @@ exports.getUser = async (req, res) => {
     return res.status(500).send("An error occurred while trying to get user");
   }
 };
+
 // match bruger 
 exports.findMatch = async (req, res) => {
   try {
@@ -167,9 +168,9 @@ exports.findMatch = async (req, res) => {
         );
     }
     if(req.params.id < match[0].userid){
-    sqlHandler(`INSERT INTO if not exist matches (user1 user2) VALUES (?, ?)
+    sqlHandler(`INSERT or IGNORE INTO matches (user1, user2) VALUES (?, ?)
     `, [Number(match[0].userid), Number(req.params.id)]);} else{
-      sqlHandler(`INSERT INTO if not exist matches (user1 user2) VALUES (?, ?)
+      sqlHandler(`INSERT or IGNORE INTO matches (user1, user2) VALUES (?, ?)
     `, [Number(req.params.id), Number(match[0].userid)]);
     }
 
