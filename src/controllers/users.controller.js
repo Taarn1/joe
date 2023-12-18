@@ -107,16 +107,17 @@ exports.signUp = async (req, res) => {
     );
     const userId = result[0].userid;
     setCookies(res, userId); 
+
+
+    let randomnumber = Math.ceil(Math.random() * 3);
     
     await sqlHandler(`
     INSERT INTO orders (userid, orderid, itemid)
   VALUES (
     (SELECT seq FROM sqlite_sequence WHERE name = 'users'),
     (SELECT COALESCE(MAX(orderid), 0) + 1 FROM orders),
-    1
-  );
-`);
-
+    ${randomnumber}
+  );`);
 
     // kaster en fejl hvis noget uventet går galt
   } catch (error) {
@@ -126,9 +127,6 @@ exports.signUp = async (req, res) => {
       .send("An error occurred while trying to create the user");
   }
 };
-
-
-
 
 // Hent bruger
 exports.getUser = async (req, res) => {
