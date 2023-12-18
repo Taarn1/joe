@@ -73,7 +73,7 @@ exports.login = async (req, res) => {
 
 // opret bruger
 exports.signUp = async (req, res) => {
-  if (!req.body.email || !req.body.password || !req.body.username) {
+  if (!req.body.email || !req.body.password || !req.body.username || !req.body.age || !req.body.number || !req.body.preferredCity) {
     return res.status(400).send("Request lacks content");
   }
   const hashedPassword = await hashPassword(req.body.password);

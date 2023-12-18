@@ -27,11 +27,6 @@ Router.get("/profile.js", (req, res) =>
 );
 
 
-//joinroom
-Router.get("/joinroom", (req, res) =>
-  res.sendFile(path.join(__dirname, "../../client/pages/joinroom.html"))
-);
-
 //chat
 Router.get("/chat", (req, res) =>
   res.sendFile(path.join(__dirname, "../../client/pages/chat.html"))
