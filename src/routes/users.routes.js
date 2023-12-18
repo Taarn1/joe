@@ -24,6 +24,6 @@ router.get("/getMatches/:userid", (req, res) =>
 
 router.get("/authenticate", (req, res) => usersController.authenticate(req, res));
 
-router.get("orders", (req, res) => usersController.orders(req, res));  
+router.get("/orders", (req, res) => usersController.orders(req, res));  
 
 module.exports = router;
