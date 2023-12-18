@@ -99,7 +99,7 @@ exports.signUp = async (req, res) => {
        req.body.number,
        req.body.preferredCity,
      ]
-   );
+   ).then((result) => console.log({"created user":result}));
     const result = await sqlHandler(
       `SELECT userid FROM users 
         WHERE username = ?`, 
