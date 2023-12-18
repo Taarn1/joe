@@ -38,8 +38,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
-    });
+    }).then(()=>window.location.href = "/profile");
     // redirect to profile page
-    window.location.href = "/profile";
   }
 });
