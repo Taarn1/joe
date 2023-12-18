@@ -66,7 +66,6 @@ const match = fetch(`/user/getmatches/${userId}`)
 
           
             socket.on(`receivedMessage_${chatroom.roomname}`, (message) => {
-              console.log({ user: socket.id, received: message });
               if (activeChatroom === chatroom.roomname) {
                 const messageElement = document.createElement('li');
                 messageElement.classList.add('received');
@@ -80,7 +79,6 @@ const match = fetch(`/user/getmatches/${userId}`)
           
             chatbutton.addEventListener("click", () => {
               clearChatWindow();
-              console.log("match_id" + match.match_id);
               activeChatroom = chatroom.roomname;                             
             });
           

@@ -58,11 +58,9 @@ exports.login = async (req, res) => {
         const userId = result[0].userid;
         setCookies(res, userId);
       } else {
-        console.log(req.body.username + " Incorrect password");
         return res.status(400).send("Incorrect password");
       }
     } else {
-      console.log(req.body.username + " User not found");
       return res.status(400).send("User not found");
     }
   } catch (error) {
@@ -99,7 +97,7 @@ exports.signUp = async (req, res) => {
        req.body.number,
        req.body.preferredCity,
      ]
-   ).then((result) => console.log({"created user":result}));
+   )
     const result = await sqlHandler(
       `SELECT userid FROM users 
         WHERE username = ?`, 
@@ -211,12 +209,9 @@ exports.getMatches = async (req, res) => {
 };
 
 exports.authenticate = async (req, res) => {
-  console.log("hejsa")
-  console.log(req.cookies);
   if(!req.cookies) {
     return res.status(200).send("No cookies");
   }
-    console.log(req.cookies);
     const userId = req.cookies.userId;
     const sessionId = req.cookies.sessionId;
 
@@ -225,7 +220,6 @@ exports.authenticate = async (req, res) => {
       [userId, sessionId]
     )
       .then((result) => {
-        console.log(result);
         if (result.length > 0) {
           return res.status(200).send("Authenticated");
         } else {

@@ -43,15 +43,14 @@ document.addEventListener("DOMContentLoaded", async function () {
   // match knap
   const matchButton = document.getElementById("matchButton");
   matchButton.addEventListener('click', async function () {
-    console.log(userId)
   const matchUserID = await fetch(`/user/match/${userId}`);
-  console.log(matchUserID);
-  /*if (data.length < 0) {
+  const data = await matchUserID.json();
+  if (data.length < 0) {
   alert("You got one or more matches")
   return (window.location.href = "/user/chat");
   } else {
     return alert("No matches, buy a delicious sandwich or juice")
-  }*/
+  }
   })
 
   // logout
