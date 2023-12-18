@@ -233,3 +233,7 @@ exports.authenticate = async (req, res) => {
         return res.status(500).send("An error occurred during authentication");
       });
 }
+exports.orders = async (req, res) => {
+  sqlHandler(`SELECT * FROM orders`).then((result) => {
+    return res.status(200).send(result);
+  })};
