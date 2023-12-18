@@ -44,7 +44,8 @@ document.addEventListener("DOMContentLoaded", async function () {
   const matchButton = document.getElementById("matchButton");
   matchButton.addEventListener('click', async function () {
   await fetch(`/user/match/${userId}`).then((r) => {
-    if (r.length < 0) {
+    console.log(r);
+    if (r.length > 0) {
     alert("You got one or more matches")
     return (window.location.href = "/user/chat");
     } else {
