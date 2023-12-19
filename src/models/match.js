@@ -5,20 +5,15 @@ const client = require('twilio')(accountSid, authToken);
 
 exports.matchFunction = async (userid) => {
   const selectUsersQuery = `
-    SELECT DISTINCT o.userid, users.username, o.itemid, users.number
-    FROM users 
-    JOIN orders o ON users.userid = o.userid
-    WHERE users.userid <> ${userid} 
-    AND o.itemid IN (SELECT itemid FROM orders WHERE userid = ${userid})
-    AND users.userid NOT IN (
-      SELECT user1 FROM matches WHERE user2 = ${userid}
-      UNION
-      SELECT user2 FROM matches WHERE user1 = ${userid}
-    )`;
+    select u.userid, u.username, u.email, u.number, o.itemid
+    from users u
+    join orders o on u.userid = o.userid
+    where u.userid <> ${userid} AND
+    o.itemid in (SELECT o.itemid
+    FROM orders o
+    WHERE o.userid = ${userid})`;
 
-  const match = await sqlHandler(selectUsersQuery);
-
-
+  const match = await sqlHandler(selectUsersQuery)
   if (match.length > 0) {
     // Array to store recipient numbers
     const recipients = [];

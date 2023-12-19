@@ -155,6 +155,7 @@ exports.getUser = async (req, res) => {
 exports.findMatch = async (req, res) => {
   try {
     // finder matches
+    console.log(req.params.userid);
     const match = await matchFunction.matchFunction(req.params.userid);
     if (match.length === 0) {
       return res
@@ -162,7 +163,8 @@ exports.findMatch = async (req, res) => {
         .send(
           "No new matches found. You can increase your chances by buying more products"
         );
-    }let i = 0;
+    }
+    let i = 0;
     match.forEach(() => {
     if(req.params.id < match[i].userid){
     sqlHandler(`INSERT or IGNORE INTO matches (user1 user2) VALUES (?, ?)
@@ -172,7 +174,7 @@ exports.findMatch = async (req, res) => {
     }i++;
   });
     // returner matches
-    return res.status(201).send(match);
+    return (res.status(201).send(match));
   } catch (error) {
     console.error(error);
     return res.status(500).send("An error occurred while trying to match");
@@ -214,7 +216,6 @@ exports.authenticate = async (req, res) => {
   }
     const userId = req.cookies.userId;
     const sessionId = req.cookies.sessionId;
-
     sqlHandler(
       `SELECT userid, sessionid FROM sessions WHERE userid = ? AND sessionid = ?`,
       [userId, sessionId]

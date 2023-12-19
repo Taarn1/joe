@@ -1,15 +1,14 @@
-//express boilerplate code
+//modules
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser')
 const path = require("path");
 const http = require('http');
 const socketIO = require('socket.io');
-const port = 3000;
-const app = express();
 const cors = require("cors");
 const { sqlHandler } = require("./models/sqlHandler");
 
+const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 
@@ -23,23 +22,23 @@ app.use(cookieParser());
 app.use("/user", userRoutes);
 app.use("/", pageRoutes);
 
-server.listen(port, () => console.log(`Server running on port ${port}`));
+server.listen(3000, () => console.log(`Server running on port ${3000}`));
 
-    let matches
-    sqlHandler(`select * from matches`).then((result) => {
-        matches = result
-        io.on('connection', (socket) => {
-          matches.forEach(match => {
-            const roomName = match.match_id;
-            
-            socket.join(roomName); // Tilslut socket til det specifikke rum
-            
-            // Modtagelse af besked fra klienten for et bestemt rum
-            socket.on(`sendMessage_${roomName}`, (message) => {  
-              socket.to(roomName).emit(`receivedMessage_${roomName}`, message); // Sender beskeden til alle i rummet
-              console.log({ user: socket.id, sent: message });
-            });
-          });
+//socket.io
+sqlHandler(`select * from matches`).then((result) => {
+    // Store the result of the query in the matches variable
+    // Set up a connection event with the socket
+    io.on('connection', (socket) => {
+      // For each match, do the following
+      result.forEach(match => {
+        // Create a room name based on the match id
+        const roomName = match.match_id;
+        socket.join(roomName); // Join the socket to the room
+        // Set up an event for receiving a message from the client for a specific room
+        socket.on(`sendMessage_${roomName}`, (message) => {  
+          // Send the message to everyone in the room
+          socket.to(roomName).emit(`receivedMessage_${roomName}`, message);
         });
-        
-    })
+      });
+    });
+});

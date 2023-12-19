@@ -48,5 +48,7 @@ const sqlHandler = (sql, params) => {
     //sqlHandler(`insert into orders (userid, itemid) values (7, 1), (6,1)`)
     //sqlHandler(`delete from orders where orderid >5`)
     //sqlHandler("create table sessions (userid integer, sessionid text)")
+    //sqlHandler("select * from SQLITE_MASTER").then((result) => console.log(result))
+    //sqlHandler("update orders set itemid = 3 where userid = 3")
     //sqlHandler("select * from matches where user1 = 4 or user2 = 4").then((result) => console.log(result))
 module.exports = {sqlHandler}
