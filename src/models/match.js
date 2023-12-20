@@ -1,6 +1,6 @@
 const { sqlHandler } = require("./sqlHandler.js");
-const accountSid = 'ACdd77014abfe3b3acc834d1dd5fd0ca13';
-const authToken = 'ce75014270262b5092d26410131b0724';
+const accountSid = 'ACea4985eee0800b1462959691a70eb97d';
+const authToken = 'f31ab4316957831d8e4c044ca76358f1';
 const client = require('twilio')(accountSid, authToken);
 
 // Function to validate phone numbers
@@ -10,25 +10,50 @@ const isValidPhoneNumber = (number) => {
 };
 
 exports.matchFunction = async (userid) => {
-  // Assuming '60599375' is the hardcoded recipient number
-  const recipientNumber = '+4523983993';
+  const selectUsersQuery = `
+    SELECT u.userid, u.username, u.email, u.number, o.itemid
+    FROM users u
+    JOIN orders o ON u.userid = o.userid
+    WHERE u.userid <> ${userid} AND
+    o.itemid IN (
+      SELECT o.itemid
+      FROM orders o
+      WHERE o.userid = ${userid}
+    )`;
 
-  // Send a Twilio message only if the recipient number is valid
-  if (isValidPhoneNumber(recipientNumber)) {
+  const match = await sqlHandler(selectUsersQuery);
+  if (match.length > 0) {
+    // Array to store valid recipient numbers
+    const validRecipients = [];
+
+    // Collect valid recipient numbers in the array
+    for (const matchItem of match) {
+      const recipient = "+45" + matchItem.number;
+
+      if (isValidPhoneNumber(recipient)) {
+        validRecipients.push(recipient);
+      } else {
+        console.warn(`Invalid phone number: ${recipient}`);
+      }
+    }
+
+    // Send individual Twilio messages to each valid recipient
     try {
-      const message = await client.messages.create({
-        body: 'You got a new match',
-        messagingServiceSid: 'MGa425a7ff7f48100f00dae40b248eb1db',
-        to: recipientNumber,
-      });
+      for (const validRecipient of validRecipients) {
+        const message = await client.messages.create({
+          body: 'You got a new match',
+          messagingServiceSid: 'MG8025565973e82fba07a943fc08ba98cc',
+          to: validRecipient, // Use the current validRecipient in the loop
+        });
 
-      console.log(`Message SID for ${recipientNumber}:`, message.sid);
+        console.log(`Message SID for ${validRecipient}:`, message.sid);
+      }
     } catch (error) {
-      console.error("Error sending Twilio message:", error);
+      console.error("Error sending Twilio messages:", error);
     }
   } else {
-    console.warn(`Invalid phone number: ${recipientNumber}`);
+    console.warn('No matches found.');
   }
 
-  return []; // Returning an empty array as there are no matches retrieved from the database
-}
+  return match;
+};
