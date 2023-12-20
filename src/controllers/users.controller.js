@@ -212,7 +212,7 @@ exports.getMatches = async (req, res) => {
 
 exports.authenticate = async (req, res) => {
   if(!req.cookies) {
-    return res.status(200).send("No cookies");
+    return res.status(400).send("No cookies");
   }
     const userId = req.cookies.userId;
     const sessionId = req.cookies.sessionId;
