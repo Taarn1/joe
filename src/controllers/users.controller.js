@@ -166,7 +166,7 @@ exports.findMatch = async (req, res) => {
     }
     let i = 0;
     match.forEach(() => {
-    if(req.params.id < match[i].userid){
+    if(req.params.userid < match[i].userid){
     sqlHandler(`INSERT or IGNORE INTO matches (user1 user2) VALUES (?, ?)
     `, [Number(match[i].userid), Number(req.params.userid)]);} else{
       sqlHandler(`INSERT or IGNORE INTO matches (user1, user2) VALUES (?, ?)

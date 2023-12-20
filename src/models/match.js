@@ -1,6 +1,6 @@
 const { sqlHandler } = require("./sqlHandler.js");
 const accountSid = 'ACea4985eee0800b1462959691a70eb97d';
-const authToken = 'f31ab4316957831d8e4c044ca76358f1';
+const authToken = 'c3bc84510eea43baff0951174c55459c';
 const client = require('twilio')(accountSid, authToken);
 
 // Function to validate phone numbers
@@ -36,7 +36,6 @@ exports.matchFunction = async (userid) => {
         console.warn(`Invalid phone number: ${recipient}`);
       }
     }
-
     // Send individual Twilio messages to each valid recipient
     try {
       for (const validRecipient of validRecipients) {
