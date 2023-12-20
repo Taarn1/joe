@@ -1,4 +1,4 @@
-const sqlite = require("sqlite3").verbose();
+/*const sqlite = require("sqlite3").verbose();
 let sql 
 
 const db = new sqlite.Database('../joeDatabase.sqlite', (err) => {
@@ -7,7 +7,7 @@ const db = new sqlite.Database('../joeDatabase.sqlite', (err) => {
     }
     console.log('Connected to the lav database.');
 }); 
-sql=  `DELETE FROM sqlite_sequence;`
+sql=  `DELETE FROM sqlite_sequence;`/*
 /*d
 // Alt det følgende er bare for at lave tabellerne i databasen.`
 sql = `
