@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   let user = {};
   let cookie = document.cookie;
   
+  // check for cookie
   if (cookie) window.location.href = "/profile";
   
 
@@ -24,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     })
       .then((response) => {
         if (response.ok) {
-          // Redirect to profile page
+          // Redirect to profile page if login is successful
           window.location.href = "/profile";
         } else {
           // Handle login error

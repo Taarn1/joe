@@ -2,10 +2,11 @@ const express = require("express");
 const Router = express.Router();
 const path = require("path");
 
-//forside/login
+//frontpage
 Router.get("/", (req, res) =>
   res.sendFile(path.join(__dirname, "../../client/pages/login.html"))
 );
+//login
 Router.get("/login.js", (req, res) => 
   res.sendFile(path.join(__dirname, "../../client/scripts/login.js"))
 );
@@ -38,7 +39,7 @@ Router.get("/chat.css", (req, res) =>
 res.sendFile(path.join(__dirname, "../../client/styles/chat.css"))
 );
 
-// CSS for alle siderne
+// CSS for all pages
 Router.get("/global.css", (req, res) =>
   res.sendFile(path.join(__dirname, "../../client/styles/global.css"))
 );

@@ -1,7 +1,9 @@
+//modules
 const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
+//document was getting long, so long functions were moved to models
 const { sqlHandler } = require("../models/sqlHandler.js");
 const matchFunction = require("../models/match.js");
 
@@ -22,6 +24,7 @@ const hashPassword = async (password) => {
 // set cookie with user and session id
 const setCookies = (res, userId) => {
   const sessionId = uuidv4();
+  //saves the pair to the database for verification
   sqlHandler(`INSERT INTO sessions (userid, sessionid) VALUES (?, ?)`, [userId, sessionId]);
   const cookieOptions = {
     httpOnly: false,
@@ -35,6 +38,7 @@ const setCookies = (res, userId) => {
   res.status(200).send({ userId, sessionId });
 };
 
+//login function
 exports.login = async (req, res) => {
   try {
     if (!req.body.username || !req.body.password) {
@@ -69,23 +73,23 @@ exports.login = async (req, res) => {
   }
 };
 
-// opret bruger
+// create user
 exports.signUp = async (req, res) => {
   if (!req.body.email || !req.body.password || !req.body.username || !req.body.age || !req.body.number || !req.body.preferredCity) {
     return res.status(400).send("Request lacks content");
   }
   const hashedPassword = await hashPassword(req.body.password);
-  //check om mail er i brug
+  //check for existing user
   let check = await sqlHandler(
     `SELECT userid, username, email, password FROM users WHERE email = ? OR username = ?`,
     [req.body.email, req.body.username]
   );
-  // hvis check er længere end 0, findes e-mailen allerede
+  // if check not empty, then the email is already in use
   if (Object.keys(check).length) {
     return res.status(400).send("E-mail or username already in use");
   }
   try {
-    // opretter en ny bruger i databasen
+    // saves user in database
     await sqlHandler(
       `INSERT INTO users (username, email, password, age, number, cityid)
       VALUES (?, ?, ?, ?, ?, (SELECT cityid FROM city WHERE cityname = ?))`,
@@ -97,7 +101,7 @@ exports.signUp = async (req, res) => {
        req.body.number,
        req.body.preferredCity,
      ]
-   )
+   )//check if user was saved
     const result = await sqlHandler(
       `SELECT userid FROM users 
         WHERE username = ?`, 
@@ -106,9 +110,8 @@ exports.signUp = async (req, res) => {
     const userId = result[0].userid;
     setCookies(res, userId); 
 
-
+    //this mocks a purchase for the user so matching is possible
     let randomnumber = Math.ceil(Math.random() * 3);
-    
     await sqlHandler(`
     INSERT INTO orders (userid, orderid, itemid)
   VALUES (
@@ -117,7 +120,7 @@ exports.signUp = async (req, res) => {
     ${randomnumber}
   );`);
 
-    // kaster en fejl hvis noget uventet går galt
+    // throws an error if something went wrong
   } catch (error) {
     console.error(error);
     return res
@@ -126,15 +129,15 @@ exports.signUp = async (req, res) => {
   }
 };
 
-// Hent bruger
+// gets userdata for display on frontend
 exports.getUser = async (req, res) => {
-  //check for user id
+  //check for userId
   const userId = req.params.id;
   if (!userId) {
     return res.status(400).send("Request lacks content");
   }
   try {
-    // finder bruger
+    // find user in database
     const user = await sqlHandler(
       `SELECT users.userid, users.username, users.email, users.age, users.number, city.cityname
       FROM users
@@ -143,7 +146,6 @@ exports.getUser = async (req, res) => {
       [userId]
     );
 
-    // returner bruger
     return res.status(201).send(user);
   } catch (error) {
     console.error(error);
@@ -151,11 +153,10 @@ exports.getUser = async (req, res) => {
   }
 };
 
-// match bruger 
+// match user 
 exports.findMatch = async (req, res) => {
   try {
-    // finder matches
-    console.log(req.params.userid);
+    // calls matchFunction from models
     const match = await matchFunction.matchFunction(req.params.userid);
     if (match.length === 0) {
       return res
@@ -164,16 +165,18 @@ exports.findMatch = async (req, res) => {
           "No new matches found. You can increase your chances by buying more products"
         );
     }
+    // save matches in database
     let i = 0;
     match.forEach(() => {
+      //the lowest number is preferred as user1
     if(req.params.userid < match[i].userid){
-    sqlHandler(`INSERT or IGNORE INTO matches (user1 user2) VALUES (?, ?)
+    sqlHandler(`INSERT or IGNORE INTO matches (user1, user2) VALUES (?, ?)
     `, [Number(match[i].userid), Number(req.params.userid)]);} else{
       sqlHandler(`INSERT or IGNORE INTO matches (user1, user2) VALUES (?, ?)
     `, [Number(req.params.userid), Number(match[i].userid)]);
     }i++;
   });
-    // returner matches
+    // returns matches
     return (res.status(201).send(match));
   } catch (error) {
     console.error(error);
@@ -181,7 +184,6 @@ exports.findMatch = async (req, res) => {
   }
 };
 
-// virker ikke
 exports.getMatches = async (req, res) => {
   try {
     // Check for user id
@@ -191,7 +193,7 @@ exports.getMatches = async (req, res) => {
 
     let userId = req.params.userid;
 
-    // Find matches
+    // Find matches from matches with user id. Also returns userdata from table users
     sqlHandler(`select 
     users1.username as user1, users2.username as user2, users1.userid as user1Id, users2.userid as user2Id, matches.match_id
     from matches
@@ -201,7 +203,6 @@ exports.getMatches = async (req, res) => {
     .then((result) => {
     return res.status(200).send(result);
     });
-    // Respond with matches
   } catch (error) {
     console.error(error);
     return res
@@ -210,6 +211,7 @@ exports.getMatches = async (req, res) => {
   }
 };
 
+// authenticate user through cookies
 exports.authenticate = async (req, res) => {
   if(!req.cookies) {
     return res.status(400).send("No cookies");
@@ -224,6 +226,7 @@ exports.authenticate = async (req, res) => {
         if (result.length > 0) {
           return res.status(200).send("Authenticated");
         } else {
+          //deletes cookies. Simulates logout
           res.clearCookie("userId");
           res.clearCookie("sessionId");
           return res.status(401).send("Unauthorized");
@@ -234,6 +237,7 @@ exports.authenticate = async (req, res) => {
         return res.status(500).send("An error occurred during authentication");
       });
 }
+//used for quick debugging
 exports.orders = async (req, res) => {
   sqlHandler(`SELECT * FROM orders`).then((result) => {
     return res.status(200).send(result);

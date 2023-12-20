@@ -1,3 +1,5 @@
+//was used to create the database. Was kept in case we needed to reset the database
+
 /*const sqlite = require("sqlite3").verbose();
 let sql 
 

@@ -1,3 +1,4 @@
+//function to get the value of a cookie
 function getCookieValue(cookieName) {
   const cookies = document.cookie.split("; ");
   for (let i = 0; i < cookies.length; i++) {
@@ -30,11 +31,9 @@ document.addEventListener("DOMContentLoaded", async function () {
   if (!userId) {
     window.location.href = "/";
   }
+  //used to check if user has altered the cookies
    await fetch(`/user/authenticate`).then((response) => console.log(response));
-    //delete cookies due to them being invalid
-    //document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    //document.cookie = "sessionId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-  
+  // Get the user data from the server
   const response = await fetch(`/user/getUser/${userId}`);
   const data = await response.json();
   if(data.length > 0) { 
@@ -43,6 +42,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   // match knap
   const matchButton = document.getElementById("matchButton");
   matchButton.addEventListener('click', async function () {
+    //calls matchfunction on the server
   const matches = await fetch(`/user/match/${userId}`).then((r) => r.json());
     if (matches.length) {
     alert("You got one or more matches. You will be redirected to the chat page shortly")
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   // logout
   const logoutButton = document.getElementById("logoutButton");
   logoutButton.addEventListener("click", async() => {
-    //delete cookie
+    //deletes cookies to log out the user
     document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     document.cookie = "sessionId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     alert("You are now logged out");

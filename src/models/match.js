@@ -1,15 +1,20 @@
 const { sqlHandler } = require("./sqlHandler.js");
-const accountSid = 'ACea4985eee0800b1462959691a70eb97d';
-const authToken = 'c3bc84510eea43baff0951174c55459c';
+// Twilio setup. Insert your own keys here.
+const accountSid = '';
+const authToken = '';
+const messagingServiceSid = '';
+
 const client = require('twilio')(accountSid, authToken);
 
 // Function to validate phone numbers
 const isValidPhoneNumber = (number) => {
-  const phoneNumberRegex = /^\+45\d{8}$/; // Replace with your desired phone number format
+  const phoneNumberRegex = /^\+45\d{8}$/;
   return phoneNumberRegex.test(number);
 };
-
+//
 exports.matchFunction = async (userid) => {
+  //matching algorithm
+  // matches with the first user that has the same itemid as the current user
   const selectUsersQuery = `
     SELECT u.userid, u.username, u.email, u.number, o.itemid
     FROM users u
@@ -20,7 +25,7 @@ exports.matchFunction = async (userid) => {
       FROM orders o
       WHERE o.userid = ${userid}
     )`;
-
+  // Find matches in the database
   const match = await sqlHandler(selectUsersQuery);
   if (match.length > 0) {
     // Array to store valid recipient numbers
@@ -41,7 +46,7 @@ exports.matchFunction = async (userid) => {
       for (const validRecipient of validRecipients) {
         const message = await client.messages.create({
           body: 'You got a new match',
-          messagingServiceSid: 'MG8025565973e82fba07a943fc08ba98cc',
+          messagingServiceSid: messagingServiceSid,
           to: validRecipient, // Use the current validRecipient in the loop
         });
 
@@ -53,6 +58,6 @@ exports.matchFunction = async (userid) => {
   } else {
     console.warn('No matches found.');
   }
-
+  // Return the match array for use in the controller
   return match;
 };

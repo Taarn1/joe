@@ -29,8 +29,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     user.number = number;
     user.preferredCity = preferredCity;
 
-    //fetch post to localhost:3000/user/signup
-    //send user object as JSON in body of request
     fetch("/user/signup", {
       method: "POST",
       headers: {
