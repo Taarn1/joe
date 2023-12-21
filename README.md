@@ -5,7 +5,8 @@ De skal indsættes øverst i src/models/match.js
 
 Kør følgende i terminalen for at kunne eksekvere webapplikationen:
 - npm install
-- Projektet kan hernæst køres med: node index.js
+- Projektet kan hernæst køres med: node index.js 
+    - OBS, index.js ligger i src
 
 Kør den på lokalhost:
 - http://localhost:3000
